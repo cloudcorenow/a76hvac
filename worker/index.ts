@@ -31,26 +31,10 @@ export default {
         return json({ error: 'Invalid JSON' }, 400);
       }
 
-      const {
-        first_name,
-        last_name,
-        email,
-        phone,
-        address,
-        city,
-        zip_code,
-        property,
-        service,
-        system_age,
-        building_size,
-        timeline,
-        hoa,
-        preferred_time,
-        message,
-      } = body;
+      const { name, email, phone, service, property, preferred_time, message } = body;
 
-      if (!first_name || !last_name || !email || !service) {
-        return json({ error: 'Missing required fields: first_name, last_name, email, service' }, 400);
+      if (!name || !email || !service) {
+        return json({ error: 'Missing required fields: name, email, service' }, 400);
       }
 
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -58,39 +42,12 @@ export default {
         return json({ error: 'Invalid email address' }, 400);
       }
 
-      const fullName = `${first_name} ${last_name}`.trim();
-      const submitterIp = request.headers.get('CF-Connecting-IP') ?? '';
-      const submitterCountry = request.headers.get('CF-IPCountry') ?? '';
-
       try {
         await env.DB.prepare(
-          `INSERT INTO contact_submissions (
-            first_name, last_name, name, email, phone,
-            address, city, zip_code, property, service,
-            system_age, building_size, timeline, hoa,
-            preferred_time, message, submitter_country, submitter_ip
-          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+          `INSERT INTO contact_submissions (name, email, phone, service, property, preferred_time, message, status, created_at)
+           VALUES (?, ?, ?, ?, ?, ?, ?, 'new', datetime('now'))`
         )
-          .bind(
-            first_name,
-            last_name,
-            fullName,
-            email,
-            phone ?? '',
-            address ?? '',
-            city ?? '',
-            zip_code ?? '',
-            property ?? '',
-            service,
-            system_age ?? '',
-            building_size ?? '',
-            timeline ?? '',
-            hoa ?? '',
-            preferred_time ?? '',
-            message ?? '',
-            submitterCountry,
-            submitterIp
-          )
+          .bind(name, email, phone ?? '', service, property ?? '', preferred_time ?? '', message ?? '')
           .run();
 
         return json({ success: true });

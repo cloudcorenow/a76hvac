@@ -1,19 +1,11 @@
 const WORKER_URL = process.env.NEXT_PUBLIC_WORKER_URL ?? '';
 
 export interface ContactPayload {
-  first_name: string;
-  last_name: string;
+  name: string;
   email: string;
   phone?: string;
-  address?: string;
-  city?: string;
-  zip_code?: string;
-  property?: string;
   service: string;
-  system_age?: string;
-  building_size?: string;
-  timeline?: string;
-  hoa?: string;
+  property?: string;
   preferred_time?: string;
   message?: string;
 }
