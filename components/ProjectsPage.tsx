@@ -35,7 +35,7 @@ const projects: Project[] = [
     size: '4,800 sq ft', system: 'Daikin Rooftop Package Unit', year: '2024',
     desc: 'Supply and installation of a Daikin rooftop package unit for a commercial retail space. Work included structural roof curb fabrication, new ductwork distribution, and digital controls integration to meet California Title 24 energy compliance.',
     before: 'https://imagedelivery.net/s0JEtwqnLquT1GUYjPcg5Q/e0058ad4-aa08-4e06-b131-9ee0dbc53d00/public',
-    after:  'https://imagedelivery.net/s0JEtwqnLquT1GUYjPcg5Q/e0058ad4-aa08-4e06-b131-9ee0dbc53d00/public',
+    after:  'https://imagedelivery.net/s0JEtwqnLquT1GUYjPcg5Q/e24c710b-b6cf-4365-9aaa-21ea6035bf00/public',
     extraImages: [],
   },
   {
@@ -230,9 +230,9 @@ export default function ProjectsPage({ onNavigate }: ProjectsPageProps) {
                         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
                         {p.loc}
                       </span>
-                      <span>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                        {p.year}
+                      <span style={{ textTransform: 'capitalize' }}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                        {p.cat}
                       </span>
                     </div>
                   </div>
