@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { submitContact } from '@/lib/api';
+import { submitContact, GeoBlockedError } from '@/lib/api';
 import Footer from './Footer';
 
 interface ContactPageProps {
@@ -64,9 +64,13 @@ export default function ContactPage({ onNavigate }: ContactPageProps) {
         hoa: form.hoa,
         message: form.message,
       });
-    } catch {
+    } catch (err) {
       setLoading(false);
-      setError('Something went wrong. Please try again or call us directly.');
+      if (err instanceof GeoBlockedError) {
+        setError('Online submissions are limited to the United States. Please call (800) 776-0076 to reach our team directly.');
+      } else {
+        setError('Something went wrong. Please try again or call us directly.');
+      }
       return;
     }
 

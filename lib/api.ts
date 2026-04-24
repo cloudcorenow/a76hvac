@@ -16,7 +16,31 @@ export interface ContactPayload {
   message?: string;
 }
 
-export async function submitContact(payload: ContactPayload): Promise<void> {
+export class GeoBlockedError extends Error {
+  constructor(message = 'Contact submissions are limited to the United States.') {
+    super(message);
+    this.name = 'GeoBlockedError';
+  }
+}
+
+async function submitViaWorker(url: string, payload: ContactPayload): Promise<void> {
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  });
+
+  if (res.status === 403) {
+    const data = await res.json().catch(() => ({}));
+    throw new GeoBlockedError(data?.error);
+  }
+  if (!res.ok) {
+    const data = await res.json().catch(() => ({}));
+    throw new Error(data?.error ?? `Request failed (${res.status})`);
+  }
+}
+
+async function submitViaSupabase(payload: ContactPayload): Promise<void> {
   const { error } = await supabase.from('contact_submissions').insert({
     name: payload.name,
     email: payload.email,
@@ -33,4 +57,12 @@ export async function submitContact(payload: ContactPayload): Promise<void> {
     message: payload.message ?? '',
   });
   if (error) throw new Error(error.message);
+}
+
+export async function submitContact(payload: ContactPayload): Promise<void> {
+  const workerUrl = process.env.NEXT_PUBLIC_WORKER_URL;
+  if (workerUrl) {
+    return submitViaWorker(`${workerUrl.replace(/\/$/, '')}/contact`, payload);
+  }
+  return submitViaSupabase(payload);
 }
