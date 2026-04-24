@@ -2,7 +2,11 @@ name = "allegiance76-hvac-api"
 main = "index.ts"
 compatibility_date = "2024-01-01"
 
+[vars]
+ENVIRONMENT = "production"
+ALLOWED_ORIGIN = "https://your-domain.com"
+
 [[d1_databases]]
 binding = "DB"
-database_name = "allegiance76-hvac"
-database_id = "YOUR_D1_DATABASE_ID"
+database_name = "a76db"
+database_id = "824de521-f5a6-4b13-955d-237799398f17"
