@@ -31,7 +31,22 @@ export default {
         return json({ error: 'Invalid JSON' }, 400);
       }
 
-      const { name, email, phone, service, property, preferred_time, message } = body;
+      const {
+        name,
+        email,
+        phone,
+        service,
+        property,
+        property_address,
+        city,
+        zip_code,
+        current_system_age,
+        home_size,
+        service_timeline,
+        hoa,
+        preferred_time,
+        message,
+      } = body;
 
       if (!name || !email || !service) {
         return json({ error: 'Missing required fields: name, email, service' }, 400);
@@ -44,10 +59,29 @@ export default {
 
       try {
         await env.DB.prepare(
-          `INSERT INTO contact_submissions (name, email, phone, service, property, preferred_time, message, status, created_at)
-           VALUES (?, ?, ?, ?, ?, ?, ?, 'new', datetime('now'))`
+          `INSERT INTO contact_submissions (
+            name, email, phone, service, property,
+            property_address, city, zip_code,
+            current_system_age, home_size, service_timeline, hoa,
+            preferred_time, message, status, created_at
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'new', datetime('now'))`
         )
-          .bind(name, email, phone ?? '', service, property ?? '', preferred_time ?? '', message ?? '')
+          .bind(
+            name,
+            email,
+            phone ?? '',
+            service,
+            property ?? '',
+            property_address ?? '',
+            city ?? '',
+            zip_code ?? '',
+            current_system_age ?? '',
+            home_size ?? '',
+            service_timeline ?? '',
+            hoa ?? '',
+            preferred_time ?? '',
+            message ?? ''
+          )
           .run();
 
         return json({ success: true });
