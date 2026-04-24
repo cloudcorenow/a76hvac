@@ -50,6 +50,8 @@ export default function ContactPage({ onNavigate }: ContactPageProps) {
 
     try {
       await submitContact({
+        first_name: form.firstName,
+        last_name: form.lastName,
         name: `${form.firstName} ${form.lastName}`,
         email: form.email,
         phone: form.phone,

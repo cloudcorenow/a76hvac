@@ -13,7 +13,9 @@ CREATE TABLE IF NOT EXISTS contact_submissions (
   id                INTEGER PRIMARY KEY AUTOINCREMENT,
 
   -- Contact identity
-  name              TEXT NOT NULL,
+  first_name        TEXT NOT NULL,
+  last_name         TEXT NOT NULL,
+  name              TEXT NOT NULL DEFAULT '',        -- concatenation, kept for Supabase parity
   email             TEXT NOT NULL,
   phone             TEXT NOT NULL DEFAULT '',
 
@@ -43,10 +45,11 @@ CREATE TABLE IF NOT EXISTS contact_submissions (
   updated_at        TEXT NOT NULL DEFAULT (datetime('now')),
 
   -- Integrity
-  CHECK (length(name)  BETWEEN 1 AND 200),
-  CHECK (length(email) BETWEEN 3 AND 320),
+  CHECK (length(first_name) BETWEEN 1 AND 100),
+  CHECK (length(last_name)  BETWEEN 1 AND 100),
+  CHECK (length(email)      BETWEEN 3 AND 320),
   CHECK (email LIKE '%_@_%._%'),
-  CHECK (length(message) <= 5000)
+  CHECK (length(message)    <= 5000)
 );
 
 CREATE INDEX IF NOT EXISTS idx_contact_created_at ON contact_submissions(created_at DESC);
@@ -54,6 +57,7 @@ CREATE INDEX IF NOT EXISTS idx_contact_status     ON contact_submissions(status)
 CREATE INDEX IF NOT EXISTS idx_contact_email      ON contact_submissions(email);
 CREATE INDEX IF NOT EXISTS idx_contact_zip_code   ON contact_submissions(zip_code);
 CREATE INDEX IF NOT EXISTS idx_contact_service    ON contact_submissions(service);
+CREATE INDEX IF NOT EXISTS idx_contact_last_name  ON contact_submissions(last_name);
 
 -- Maintain updated_at on row updates
 CREATE TRIGGER IF NOT EXISTS trg_contact_submissions_updated_at
@@ -71,9 +75,9 @@ END;
 -- ============================================================================
 
 CREATE TABLE IF NOT EXISTS rate_limit_hits (
-  ip          TEXT NOT NULL,
+  ip           TEXT NOT NULL,
   window_start TEXT NOT NULL,
-  hits        INTEGER NOT NULL DEFAULT 1,
+  hits         INTEGER NOT NULL DEFAULT 1,
   PRIMARY KEY (ip, window_start)
 );
 

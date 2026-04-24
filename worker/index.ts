@@ -62,33 +62,39 @@ export default {
     }
 
     const {
-      name, email, phone, service, property,
+      first_name, last_name, email, phone, service, property,
       address, city, zip_code, system_age, building_size,
-      timeline, hoa, message,
+      timeline, hoa, preferred_time, message,
     } = body;
 
-    if (!name || !email || !service) {
-      return json({ error: 'Missing required fields: name, email, service' }, 400, env);
+    if (!first_name || !last_name || !email || !service) {
+      return json({ error: 'Missing required fields: first_name, last_name, email, service' }, 400, env);
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       return json({ error: 'Invalid email address' }, 400, env);
     }
-    if (name.length > 200 || email.length > 320 || (message ?? '').length > 5000) {
+    if (
+      first_name.length > 100 || last_name.length > 100 ||
+      email.length > 320 || (message ?? '').length > 5000
+    ) {
       return json({ error: 'Field too long' }, 400, env);
     }
+
+    const fullName = `${first_name} ${last_name}`.trim();
 
     try {
       await env.DB.prepare(
         `INSERT INTO contact_submissions
-         (name, email, phone, service, property, address, city, zip_code,
-          system_age, building_size, timeline, hoa, message,
-          submitter_country, submitter_ip, status, created_at)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'new', datetime('now'))`
+         (first_name, last_name, name, email, phone, service, property,
+          address, city, zip_code, system_age, building_size, timeline, hoa,
+          preferred_time, message, submitter_country, submitter_ip)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
       )
         .bind(
-          name, email, phone ?? '', service, property ?? '',
+          first_name, last_name, fullName, email, phone ?? '', service, property ?? '',
           address ?? '', city ?? '', zip_code ?? '',
-          system_age ?? '', building_size ?? '', timeline ?? '', hoa ?? '', message ?? '',
+          system_age ?? '', building_size ?? '', timeline ?? '', hoa ?? '',
+          preferred_time ?? '', message ?? '',
           country ?? '', request.headers.get('cf-connecting-ip') ?? '',
         )
         .run();

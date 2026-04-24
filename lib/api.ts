@@ -1,6 +1,8 @@
 import { supabase } from './supabase';
 
 export interface ContactPayload {
+  first_name: string;
+  last_name: string;
   name: string;
   email: string;
   phone?: string;
@@ -42,6 +44,8 @@ async function submitViaWorker(url: string, payload: ContactPayload): Promise<vo
 
 async function submitViaSupabase(payload: ContactPayload): Promise<void> {
   const { error } = await supabase.from('contact_submissions').insert({
+    first_name: payload.first_name,
+    last_name: payload.last_name,
     name: payload.name,
     email: payload.email,
     phone: payload.phone ?? '',
