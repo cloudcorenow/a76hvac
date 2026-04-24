@@ -34,6 +34,3 @@ export async function submitContact(payload: ContactPayload): Promise<void> {
   });
   if (error) throw new Error(error.message);
 }
-
-
-export { submitContact }
