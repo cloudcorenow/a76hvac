@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { supabase } from '@/lib/supabase';
+import { submitContact } from '@/lib/api';
 import Footer from './Footer';
 
 interface ContactPageProps {
@@ -42,23 +42,23 @@ export default function ContactPage({ onNavigate }: ContactPageProps) {
 
     setLoading(true);
 
-    const { error: dbError } = await supabase.from('contact_submissions').insert({
-      name: `${form.firstName} ${form.lastName}`,
-      email: form.email,
-      phone: form.phone,
-      service: form.service,
-      property: form.property,
-      preferred_time: form.preferredTime,
-      message: form.message,
-      status: 'new',
-    });
-
-    setLoading(false);
-
-    if (dbError) {
+    try {
+      await submitContact({
+        name: `${form.firstName} ${form.lastName}`,
+        email: form.email,
+        phone: form.phone,
+        service: form.service,
+        property: form.property,
+        preferred_time: form.preferredTime,
+        message: form.message,
+      });
+    } catch {
+      setLoading(false);
       setError('Something went wrong. Please try again or call us directly.');
       return;
     }
+
+    setLoading(false);
 
     setSuccess(true);
     setForm({ firstName: '', lastName: '', email: '', phone: '', service: '', property: '', preferredTime: '', message: '' });
