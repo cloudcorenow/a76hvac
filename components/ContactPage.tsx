@@ -61,17 +61,18 @@ export default function ContactPage({ onNavigate }: ContactPageProps) {
 
     try {
       await submitContact({
-        name: `${form.firstName} ${form.lastName}`,
+        first_name: form.firstName,
+        last_name: form.lastName,
         email: form.email,
         phone: form.phone,
         service: form.service,
         property: form.property,
-        property_address: form.propertyAddress,
+        address: form.propertyAddress,
         city: form.city,
         zip_code: form.zipCode,
-        current_system_age: form.currentSystemAge,
-        home_size: form.homeSize,
-        service_timeline: form.serviceTimeline,
+        system_age: form.currentSystemAge,
+        building_size: form.homeSize,
+        timeline: form.serviceTimeline,
         hoa: form.hoa,
         message: form.message,
       });
