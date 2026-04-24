@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useCallback } from 'react';
+import { useState } from 'react';
 import Footer from './Footer';
 
 interface ProjectsPageProps {
@@ -83,55 +83,6 @@ const CloseIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
 );
 
-/* ── BEFORE/AFTER SLIDER ── */
-function BeforeAfterSlider({ before, after, title }: { before: string; after: string; title: string }) {
-  const [pct, setPct] = useState(50);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const dragging = useRef(false);
-
-  const updatePct = useCallback((clientX: number) => {
-    if (!containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    const raw = ((clientX - rect.left) / rect.width) * 100;
-    setPct(Math.min(98, Math.max(2, raw)));
-  }, []);
-
-  const onMouseDown = (e: React.MouseEvent) => {
-    dragging.current = true;
-    updatePct(e.clientX);
-    const onMove = (ev: MouseEvent) => { if (dragging.current) updatePct(ev.clientX); };
-    const onUp = () => { dragging.current = false; window.removeEventListener('mousemove', onMove); window.removeEventListener('mouseup', onUp); };
-    window.addEventListener('mousemove', onMove);
-    window.addEventListener('mouseup', onUp);
-  };
-
-  const onTouchMove = (e: React.TouchEvent) => updatePct(e.touches[0].clientX);
-
-  return (
-    <div
-      ref={containerRef}
-      className="ba-slider"
-      onMouseDown={onMouseDown}
-      onTouchMove={onTouchMove}
-      onTouchStart={(e) => updatePct(e.touches[0].clientX)}
-      style={{ userSelect: 'none' }}
-    >
-      <img src={before} alt={`${title} — before`} loading="lazy" className="ba-img ba-before" />
-      <div className="ba-after-wrap" style={{ width: `${pct}%` }}>
-        <img src={after} alt={`${title} — after`} loading="lazy" className="ba-img ba-after" />
-      </div>
-      <div className="ba-divider" style={{ left: `${pct}%` }}>
-        <div className="ba-handle">
-          <ChevronLeft />
-          <ChevronRight />
-        </div>
-      </div>
-      <div className="ba-label ba-label-before">Before</div>
-      <div className="ba-label ba-label-after">After</div>
-    </div>
-  );
-}
-
 /* ── MAIN COMPONENT ── */
 export default function ProjectsPage({ onNavigate }: ProjectsPageProps) {
   const [filter, setFilter] = useState('all');
@@ -207,12 +158,8 @@ export default function ProjectsPage({ onNavigate }: ProjectsPageProps) {
                   <div className="project-thumb">
                     {p.before ? (
                       <>
-                        <img src={p.before} alt={`${p.title} before`} loading="lazy" className="project-thumb-before" />
-                        {p.after && <img src={p.after} alt={`${p.title} after`} loading="lazy" className="project-thumb-after" />}
+                        <img src={p.before} alt={`${p.title}`} loading="lazy" className="project-thumb-before" style={{ opacity: 1 }} />
                         <div className="project-thumb-overlay"></div>
-                        {p.after && <div className="project-thumb-divider"></div>}
-                        <span className="project-thumb-label project-thumb-label-before">Before</span>
-                        {p.after && <span className="project-thumb-label project-thumb-label-after">After</span>}
                       </>
                     ) : (
                       <div className="project-thumb-placeholder">
@@ -268,28 +215,8 @@ export default function ProjectsPage({ onNavigate }: ProjectsPageProps) {
               </div>
             </div>
 
-            {/* BEFORE / AFTER SLIDER */}
-            {selectedProject.before && selectedProject.after ? (
-              <div style={{ marginBottom: '2.5rem' }}>
-                <div className="ba-intro">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 15l-6-6-6 6"/></svg>
-                  Drag the slider to reveal before &amp; after
-                </div>
-                <BeforeAfterSlider
-                  before={selectedProject.before}
-                  after={selectedProject.after}
-                  title={selectedProject.title}
-                />
-              </div>
-            ) : (
-              <div className="project-no-photos">
-                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-                <p>Project photos coming soon.</p>
-              </div>
-            )}
-
-            {/* SIDE-BY-SIDE STILLS + click to open lightbox */}
-            {allImages.length > 0 && (
+            {/* IMAGE GRID */}
+            {allImages.length > 0 ? (
               <div className="ba-stills-grid">
                 {selectedProject.before && (
                   <div
@@ -342,6 +269,11 @@ export default function ProjectsPage({ onNavigate }: ProjectsPageProps) {
                     </div>
                   );
                 })}
+              </div>
+            ) : (
+              <div className="project-no-photos">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                <p>Project photos coming soon.</p>
               </div>
             )}
 
