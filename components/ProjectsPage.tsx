@@ -158,8 +158,12 @@ export default function ProjectsPage({ onNavigate }: ProjectsPageProps) {
                   <div className="project-thumb">
                     {p.before ? (
                       <>
-                        <img src={p.before} alt={`${p.title}`} loading="lazy" className="project-thumb-before" style={{ opacity: 1 }} />
+                        <img src={p.before} alt={`${p.title} before`} loading="lazy" className="project-thumb-before" />
+                        {p.after && <img src={p.after} alt={`${p.title} after`} loading="lazy" className="project-thumb-after" />}
                         <div className="project-thumb-overlay"></div>
+                        {p.after && <div className="project-thumb-divider"></div>}
+                        <span className="project-thumb-label project-thumb-label-before">Before</span>
+                        {p.after && <span className="project-thumb-label project-thumb-label-after">After</span>}
                       </>
                     ) : (
                       <div className="project-thumb-placeholder">
