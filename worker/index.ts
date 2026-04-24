@@ -43,6 +43,7 @@ export default {
         current_system_age,
         home_size,
         service_timeline,
+        hoa,
         preferred_time,
         message,
       } = body;
@@ -61,9 +62,9 @@ export default {
           `INSERT INTO contact_submissions (
             name, email, phone, service, property,
             property_address, city, zip_code,
-            current_system_age, home_size, service_timeline,
+            current_system_age, home_size, service_timeline, hoa,
             preferred_time, message, status, created_at
-          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'new', datetime('now'))`
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'new', datetime('now'))`
         )
           .bind(
             name,
@@ -77,6 +78,7 @@ export default {
             current_system_age ?? '',
             home_size ?? '',
             service_timeline ?? '',
+            hoa ?? '',
             preferred_time ?? '',
             message ?? ''
           )

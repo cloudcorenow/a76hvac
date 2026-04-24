@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS contact_submissions (
   current_system_age TEXT DEFAULT '',
   home_size          TEXT DEFAULT '',
   service_timeline   TEXT DEFAULT '',
+  hoa                TEXT DEFAULT '',
   preferred_time     TEXT DEFAULT '',
   message            TEXT DEFAULT '',
   status             TEXT DEFAULT 'new',
@@ -25,3 +26,4 @@ CREATE TABLE IF NOT EXISTS contact_submissions (
 --   ALTER TABLE contact_submissions ADD COLUMN current_system_age TEXT DEFAULT '';
 --   ALTER TABLE contact_submissions ADD COLUMN home_size TEXT DEFAULT '';
 --   ALTER TABLE contact_submissions ADD COLUMN service_timeline TEXT DEFAULT '';
+--   ALTER TABLE contact_submissions ADD COLUMN hoa TEXT DEFAULT '';

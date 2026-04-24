@@ -22,6 +22,7 @@ export default function ContactPage({ onNavigate }: ContactPageProps) {
     currentSystemAge: '',
     homeSize: '',
     serviceTimeline: '',
+    hoa: '',
     message: '',
   };
   const [form, setForm] = useState(initialForm);
@@ -71,6 +72,7 @@ export default function ContactPage({ onNavigate }: ContactPageProps) {
         current_system_age: form.currentSystemAge,
         home_size: form.homeSize,
         service_timeline: form.serviceTimeline,
+        hoa: form.hoa,
         message: form.message,
       });
     } catch {
@@ -236,16 +238,26 @@ export default function ContactPage({ onNavigate }: ContactPageProps) {
                   </select>
                 </div>
               </div>
-              <div className="form-group">
-                <label>Service Timeline</label>
-                <select name="serviceTimeline" value={form.serviceTimeline} onChange={handleChange}>
-                  <option value="">Select Timeline</option>
-                  <option>ASAP – Emergency</option>
-                  <option>Within 1 week</option>
-                  <option>Within 2–4 weeks</option>
-                  <option>1–3 months</option>
-                  <option>Just exploring options</option>
-                </select>
+              <div className="form-row">
+                <div className="form-group">
+                  <label>Service Timeline</label>
+                  <select name="serviceTimeline" value={form.serviceTimeline} onChange={handleChange}>
+                    <option value="">Select Timeline</option>
+                    <option>ASAP – Emergency</option>
+                    <option>Within 1 week</option>
+                    <option>Within 2–4 weeks</option>
+                    <option>1–3 months</option>
+                    <option>Just exploring options</option>
+                  </select>
+                </div>
+                <div className="form-group">
+                  <label>HOA?</label>
+                  <select name="hoa" value={form.hoa} onChange={handleChange}>
+                    <option value="">Select...</option>
+                    <option>Yes</option>
+                    <option>No</option>
+                  </select>
+                </div>
               </div>
               <div className="form-group">
                 <label>Additional Information or Questions</label>

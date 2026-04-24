@@ -12,6 +12,7 @@ export interface ContactPayload {
   current_system_age?: string;
   home_size?: string;
   service_timeline?: string;
+  hoa?: string;
   preferred_time?: string;
   message?: string;
 }
