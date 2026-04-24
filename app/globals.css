@@ -584,6 +584,23 @@ footer .stripe-accent { margin-bottom: 3rem; }
 .project-thumb-label-before { left: 8px; }
 .project-thumb-label-after  { right: 8px; }
 
+/* ── PROJECT THUMB PLACEHOLDER ── */
+.project-thumb-placeholder {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 0.75rem; height: 100%; background: var(--navy);
+  color: rgba(255,255,255,0.35); font-size: 0.75rem; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase;
+}
+
+/* ── PROJECT NO-PHOTOS ── */
+.project-no-photos {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 1rem; padding: 4rem 2rem; margin-bottom: 2.5rem;
+  border: 2px dashed #D0D8E4; border-radius: 10px;
+  color: var(--text-mid); text-align: center;
+}
+.project-no-photos p { font-size: 0.95rem; font-weight: 500; margin: 0; }
+
 /* ── PROJECT DETAIL ── */
 .project-detail { padding: 60px 2rem 80px; background: var(--white); }
 .project-detail .inner { max-width: 1300px; margin: 0 auto; }
