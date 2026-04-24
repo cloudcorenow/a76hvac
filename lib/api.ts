@@ -12,6 +12,7 @@ export interface ContactPayload {
   system_age?: string;
   building_size?: string;
   timeline?: string;
+  hoa?: string;
   message?: string;
 }
 
@@ -28,7 +29,11 @@ export async function submitContact(payload: ContactPayload): Promise<void> {
     system_age: payload.system_age ?? '',
     building_size: payload.building_size ?? '',
     timeline: payload.timeline ?? '',
+    hoa: payload.hoa ?? '',
     message: payload.message ?? '',
   });
   if (error) throw new Error(error.message);
 }
+
+
+export { submitContact }

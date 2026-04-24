@@ -22,6 +22,7 @@ export default function ContactPage({ onNavigate }: ContactPageProps) {
     systemAge: '',
     buildingSize: '',
     timeline: '',
+    hoa: '',
     message: '',
   });
   const [loading, setLoading] = useState(false);
@@ -60,6 +61,7 @@ export default function ContactPage({ onNavigate }: ContactPageProps) {
         system_age: form.systemAge,
         building_size: form.buildingSize,
         timeline: form.timeline,
+        hoa: form.hoa,
         message: form.message,
       });
     } catch {
@@ -71,7 +73,7 @@ export default function ContactPage({ onNavigate }: ContactPageProps) {
     setLoading(false);
 
     setSuccess(true);
-    setForm({ firstName: '', lastName: '', email: '', phone: '', address: '', city: '', zipCode: '', property: '', service: '', systemAge: '', buildingSize: '', timeline: '', message: '' });
+    setForm({ firstName: '', lastName: '', email: '', phone: '', address: '', city: '', zipCode: '', property: '', service: '', systemAge: '', buildingSize: '', timeline: '', hoa: '', message: '' });
     setTimeout(() => setSuccess(false), 8000);
   };
 
@@ -228,17 +230,27 @@ export default function ContactPage({ onNavigate }: ContactPageProps) {
                   </select>
                 </div>
               </div>
-              <div className="form-group">
-                <label>Service Timeline</label>
-                <select name="timeline" value={form.timeline} onChange={handleChange}>
-                  <option value="">Select Timeline</option>
-                  <option>Emergency - ASAP</option>
-                  <option>Within 1-2 weeks</option>
-                  <option>Within 1 month</option>
-                  <option>1-3 months</option>
-                  <option>3-6 months</option>
-                  <option>Just planning/researching</option>
-                </select>
+              <div className="form-row">
+                <div className="form-group">
+                  <label>Service Timeline</label>
+                  <select name="timeline" value={form.timeline} onChange={handleChange}>
+                    <option value="">Select Timeline</option>
+                    <option>Emergency - ASAP</option>
+                    <option>Within 1-2 weeks</option>
+                    <option>Within 1 month</option>
+                    <option>1-3 months</option>
+                    <option>3-6 months</option>
+                    <option>Just planning/researching</option>
+                  </select>
+                </div>
+                <div className="form-group">
+                  <label>Is there an HOA?</label>
+                  <select name="hoa" value={form.hoa} onChange={handleChange}>
+                    <option value="">Select</option>
+                    <option>Yes</option>
+                    <option>No</option>
+                  </select>
+                </div>
               </div>
               <div className="form-group">
                 <label>Additional Information or Questions</label>
