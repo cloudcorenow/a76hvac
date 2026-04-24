@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alliance 76 HVAC — Heating & Cooling</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0A1E3C;
+  --navy-mid: #102A52;
+  --navy-light: #1A3A6B;
+  --red: #B22234;
+  --red-bright: #CC2A3E;
+  --red-dark: #8B1A28;
+  --white: #FFFFFF;
+  --cream: #F5EDD6;
+  --cream-dark: #EAD9B4;
+  --gray-light: #F0F2F5;
+  --gray-mid: #8A9BB0;
+  --text-dark: #0A1E3C;
+  --text-mid: #3A506B;
+  --stripe-w: 14px;
+  --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  font-family: 'Source Sans 3', sans-serif;
+  color: var(--text-dark);
+  background: var(--white);
+  overflow-x: hidden;
+}
+
+/* ── STRIPES UTILITY ── */
+.stripe-accent {
+  height: 6px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--red) 0px,
+    var(--red) var(--stripe-w),
+    var(--white) var(--stripe-w),
+    var(--white) calc(var(--stripe-w)*2),
+    var(--navy) calc(var(--stripe-w)*2),
+    var(--navy) calc(var(--stripe-w)*3)
+  );
+}
+
+/* ── NAVIGATION ── */
+#nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  transition: var(--transition);
+}
+#nav.scrolled {
+  background: rgba(10,30,60,0.97);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 2px 20px rgba(0,0,0,0.4);
+}
+.nav-stripe { height: 4px; background: repeating-linear-gradient(90deg, var(--red) 0, var(--red) 10px, var(--white) 10px, var(--white) 20px, var(--navy-light) 20px, var(--navy-light) 30px); }
+.nav-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 2rem; height: 70px; max-width: 1300px; margin: 0 auto;
+}
+.nav-logo { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; }
+.nav-logo img { height: 48px; width: auto; object-fit: contain; }
+.nav-logo-text { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; color: var(--white); letter-spacing: 0.05em; line-height: 1.1; }
+.nav-logo-text span { display: block; font-family: 'Source Sans 3', sans-serif; font-size: 0.6rem; font-weight: 300; letter-spacing: 0.2em; color: var(--cream); text-transform: uppercase; }
+
+.nav-links { display: flex; align-items: center; gap: 0.25rem; list-style: none; }
+.nav-links a {
+  display: flex; align-items: center; padding: 0.5rem 0.9rem;
+  color: rgba(255,255,255,0.85); text-decoration: none;
+  font-size: 0.85rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+  border-radius: 4px; transition: var(--transition); position: relative;
+}
+.nav-links a::after {
+  content: ''; position: absolute; bottom: 2px; left: 0.9rem; right: 0.9rem; height: 2px;
+  background: var(--red); transform: scaleX(0); transition: var(--transition);
+}
+.nav-links a:hover, .nav-links a.active { color: var(--white); }
+.nav-links a:hover::after, .nav-links a.active::after { transform: scaleX(1); }
+.nav-cta {
+  background: var(--red); color: var(--white) !important;
+  border-radius: 4px !important; padding: 0.5rem 1.2rem !important;
+}
+.nav-cta:hover { background: var(--red-bright) !important; }
+.nav-cta::after { display: none !important; }
+
+.hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; }
+.hamburger span { display: block; width: 24px; height: 2px; background: var(--white); transition: var(--transition); }
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+.mobile-menu {
+  display: none; position: fixed; top: 74px; left: 0; right: 0; z-index: 999;
+  background: var(--navy); padding: 1rem 2rem 2rem; border-top: 2px solid var(--red);
+}
+.mobile-menu.open { display: block; }
+.mobile-menu ul { list-style: none; }
+.mobile-menu ul li a {
+  display: block; padding: 0.85rem 0; color: var(--white); text-decoration: none;
+  font-size: 1.1rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+/* ── PAGES ── */
+.page { display: none; }
+.page.active { display: block; }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh; position: relative; overflow: hidden;
+  background: var(--navy);
+  display: flex; align-items: center;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 70% 50%, rgba(178,34,52,0.15) 0%, transparent 60%),
+    radial-gradient(ellipse at 20% 80%, rgba(26,58,107,0.8) 0%, transparent 50%);
+}
+.hero-stars {
+  position: absolute; inset: 0; overflow: hidden;
+}
+.hero-stars::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 30% 10%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 50% 30%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 70% 15%, rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 90% 25%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 15% 60%, rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 45% 70%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 80% 55%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 25% 45%, rgba(255,255,255,0.7) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 60% 35%, rgba(255,255,255,0.6) 0%, transparent 100%);
+}
+.hero-stripes {
+  position: absolute; right: 0; top: 0; bottom: 0; width: 40%;
+  background: repeating-linear-gradient(
+    180deg,
+    var(--red) 0px, var(--red) 40px,
+    var(--white) 40px, var(--white) 80px
+  );
+  opacity: 0.08; clip-path: polygon(15% 0, 100% 0, 100% 100%, 0% 100%);
+}
+.hero-content {
+  position: relative; z-index: 2; max-width: 1300px; margin: 0 auto;
+  padding: 120px 2rem 80px; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  background: rgba(178,34,52,0.2); border: 1px solid rgba(178,34,52,0.5);
+  color: var(--cream); padding: 0.4rem 1rem; border-radius: 2px;
+  font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;
+  margin-bottom: 1.5rem;
+}
+.hero-badge::before { content: '★'; color: var(--red); }
+.hero-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(3.5rem, 7vw, 6rem);
+  color: var(--white); line-height: 0.95; letter-spacing: 0.02em;
+  margin-bottom: 1.5rem;
+}
+.hero-title em { color: var(--red); font-style: normal; }
+.hero-subtitle {
+  font-size: 1.1rem; color: rgba(255,255,255,0.75); line-height: 1.7;
+  max-width: 480px; margin-bottom: 2.5rem;
+}
+.hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+.btn-primary {
+  background: var(--red); color: var(--white); padding: 1rem 2rem;
+  font-size: 0.9rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  border: none; border-radius: 3px; cursor: pointer; text-decoration: none;
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  transition: var(--transition); box-shadow: 0 4px 20px rgba(178,34,52,0.4);
+}
+.btn-primary:hover { background: var(--red-bright); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(178,34,52,0.5); }
+.btn-outline {
+  background: transparent; color: var(--white); padding: 1rem 2rem;
+  font-size: 0.9rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  border: 2px solid rgba(255,255,255,0.4); border-radius: 3px; cursor: pointer; text-decoration: none;
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  transition: var(--transition);
+}
+.btn-outline:hover { border-color: var(--white); background: rgba(255,255,255,0.1); }
+
+.hero-stats { display: flex; gap: 2rem; flex-wrap: wrap; }
+.hero-stat {}
+.hero-stat .num { font-family: 'Bebas Neue', sans-serif; font-size: 2.8rem; color: var(--white); line-height: 1; }
+.hero-stat .num span { color: var(--red); }
+.hero-stat .label { font-size: 0.75rem; color: var(--gray-mid); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 0.2rem; }
+
+.hero-card-wrap { display: flex; flex-direction: column; gap: 1rem; }
+.hero-card {
+  background: rgba(255,255,255,0.05); backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.12); border-radius: 8px;
+  padding: 1.5rem; display: flex; gap: 1rem; align-items: flex-start;
+  transition: var(--transition);
+}
+.hero-card:hover { background: rgba(255,255,255,0.09); border-color: rgba(255,255,255,0.2); transform: translateX(6px); }
+.hero-card-icon {
+  width: 48px; height: 48px; border-radius: 6px; display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem; flex-shrink: 0;
+}
+.hero-card-icon.red { background: rgba(178,34,52,0.3); }
+.hero-card-icon.navy { background: rgba(255,255,255,0.1); }
+.hero-card-title { font-size: 0.95rem; font-weight: 700; color: var(--white); margin-bottom: 0.3rem; }
+.hero-card-desc { font-size: 0.8rem; color: rgba(255,255,255,0.55); line-height: 1.5; }
+
+/* ── SECTION HEADERS ── */
+.section-tag {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  color: var(--red); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+.section-tag::before { content: ''; display: block; width: 24px; height: 2px; background: var(--red); }
+.section-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem, 4vw, 3rem); color: var(--navy); line-height: 1.05; }
+.section-title.light { color: var(--white); }
+.section-title em { color: var(--red); font-style: normal; }
+.section-sub { font-size: 1.05rem; color: var(--text-mid); line-height: 1.7; max-width: 560px; margin-top: 0.75rem; }
+.section-sub.light { color: rgba(255,255,255,0.7); }
+
+/* ── SERVICE HIGHLIGHTS (HOME) ── */
+.services-home { padding: 80px 2rem; background: var(--gray-light); }
+.services-home .inner { max-width: 1300px; margin: 0 auto; }
+.services-home .header { margin-bottom: 3rem; }
+.service-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+.service-card {
+  background: var(--white); border-radius: 8px; padding: 2rem;
+  border: 1px solid #E0E6F0; transition: var(--transition);
+  position: relative; overflow: hidden;
+}
+.service-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--navy); transform: scaleX(0); transform-origin: left; transition: var(--transition);
+}
+.service-card:hover { box-shadow: 0 12px 40px rgba(10,30,60,0.12); transform: translateY(-4px); }
+.service-card:hover::before { transform: scaleX(1); }
+.service-icon { width: 44px; height: 44px; display:flex; align-items:center; justify-content:center; margin-bottom: 1rem; background: var(--gray-light); border-radius: 8px; border: 1.5px solid #D0D8E4; }
+.service-card h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 0.03em; color: var(--navy); margin-bottom: 0.5rem; }
+.service-card p { font-size: 0.9rem; color: var(--text-mid); line-height: 1.6; }
+
+/* ── TRUST STRIP ── */
+.trust-strip { background: var(--navy); padding: 60px 2rem; }
+.trust-strip .inner { max-width: 1300px; margin: 0 auto; }
+.trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; margin-top: 2.5rem; }
+.trust-item { text-align: center; }
+.trust-num { font-family: 'Bebas Neue', sans-serif; font-size: 3.5rem; color: var(--white); line-height: 1; }
+.trust-num span { color: var(--red); }
+.trust-label { font-size: 0.8rem; color: var(--gray-mid); letter-spacing: 0.12em; text-transform: uppercase; margin-top: 0.4rem; }
+
+/* ── HOME CTA ── */
+.home-cta {
+  padding: 100px 2rem; background: var(--cream);
+  position: relative; overflow: hidden;
+}
+.home-cta::before {
+  content: '76'; position: absolute; right: 5%; top: 50%; transform: translateY(-50%);
+  font-family: 'Bebas Neue', sans-serif; font-size: 22rem; color: rgba(10,30,60,0.04); line-height: 1;
+  pointer-events: none;
+}
+.home-cta .inner { max-width: 700px; margin: 0 auto; text-align: center; position: relative; }
+.home-cta .section-tag { justify-content: center; }
+.home-cta .section-tag::before { display: none; }
+.home-cta .section-title { font-size: clamp(2.5rem, 5vw, 3.5rem); }
+.home-cta p { font-size: 1.1rem; color: var(--text-mid); line-height: 1.7; margin: 1rem 0 2.5rem; }
+.home-cta .actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+/* ── SERVICES PAGE ── */
+.page-header {
+  background: var(--navy); padding: 140px 2rem 80px; position: relative; overflow: hidden;
+}
+.page-header::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 4px;
+  background: repeating-linear-gradient(90deg, var(--red) 0, var(--red) 20px, var(--white) 20px, var(--white) 40px, var(--navy-light) 40px, var(--navy-light) 60px);
+}
+.page-header-bg {
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(135deg, rgba(255,255,255,0.015) 0px, rgba(255,255,255,0.015) 1px, transparent 1px, transparent 40px);
+}
+.page-header .inner { max-width: 1300px; margin: 0 auto; position: relative; }
+.page-header h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 6vw, 5rem); color: var(--white); letter-spacing: 0.02em; line-height: 1; }
+.page-header p { font-size: 1.1rem; color: rgba(255,255,255,0.7); margin-top: 0.75rem; max-width: 560px; }
+
+.services-section { padding: 80px 2rem; background: var(--white); }
+.services-section .inner { max-width: 1300px; margin: 0 auto; }
+.services-full-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; margin-top: 3rem; }
+.service-full-card {
+  background: var(--gray-light); border-radius: 10px; padding: 2.5rem;
+  display: flex; gap: 1.5rem; align-items: flex-start; border: 1px solid #E0E6F0;
+  transition: var(--transition); cursor: default;
+}
+.service-full-card:hover { background: var(--white); box-shadow: 0 10px 40px rgba(10,30,60,0.1); transform: translateY(-3px); border-color: var(--navy-light); }
+.sfc-icon {
+  width: 64px; height: 64px; border-radius: 10px; background: var(--navy);
+  display: flex; align-items: center; justify-content: center; font-size: 1.8rem; flex-shrink: 0;
+}
+.sfc-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: var(--navy); letter-spacing: 0.03em; margin-bottom: 0.5rem; }
+.sfc-desc { font-size: 0.9rem; color: var(--text-mid); line-height: 1.65; margin-bottom: 1rem; }
+.sfc-features { list-style: none; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.sfc-features li {
+  background: rgba(10,30,60,0.07); color: var(--navy-light);
+  font-size: 0.75rem; font-weight: 600; letter-spacing: 0.05em;
+  padding: 0.25rem 0.6rem; border-radius: 2px;
+}
+
+.plans-wrap {
+  margin: 3rem 0 0;
+}
+.plans-header { margin-bottom: 2rem; }
+.plans-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.75rem; }
+.plan-card {
+  background: var(--navy); border-radius: 14px; overflow: hidden;
+  border: 1.5px solid rgba(255,255,255,0.1); position: relative;
+  transition: var(--transition);
+}
+.plan-card:hover { transform: translateY(-4px); box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
+.plan-card.featured { border-color: var(--red); }
+.plan-featured-tag {
+  background: var(--red); color: var(--white); text-align: center;
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;
+  padding: 0.35rem 1rem;
+}
+.plan-top {
+  padding: 2rem 2rem 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.plan-badge {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  font-size: 0.65rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--cream); opacity: 0.7; margin-bottom: 0.5rem;
+}
+.plan-name { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--white); letter-spacing: 0.04em; line-height: 1; margin-bottom: 0.75rem; }
+.plan-price-row { display: flex; align-items: baseline; gap: 0.4rem; margin-bottom: 0.3rem; }
+.plan-price { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; color: var(--white); line-height: 1; }
+.plan-price-suffix { font-size: 0.8rem; color: rgba(255,255,255,0.5); font-weight: 600; letter-spacing: 0.05em; }
+.plan-add-sys { font-size: 0.8rem; color: rgba(255,255,255,0.45); margin-top: 0.2rem; }
+.plan-add-sys strong { color: var(--cream); }
+.plan-body { padding: 1.5rem 2rem 2rem; }
+.plan-section-label {
+  font-size: 0.65rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--red); margin: 1.2rem 0 0.6rem;
+}
+.plan-section-label:first-child { margin-top: 0; }
+.plan-includes { list-style: none; display: flex; flex-direction: column; gap: 0.45rem; }
+.plan-includes li {
+  display: flex; align-items: flex-start; gap: 0.6rem;
+  font-size: 0.85rem; color: rgba(255,255,255,0.75); line-height: 1.45;
+}
+.plan-includes li svg { flex-shrink: 0; margin-top: 2px; opacity: 0.6; }
+.plan-includes li.sub-item { padding-left: 1.4rem; }
+.plan-includes li.sub-item svg { opacity: 0.4; }
+.plan-benefits { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.6rem; }
+.plan-benefits li {
+  display: flex; align-items: flex-start; gap: 0.6rem;
+  font-size: 0.85rem; color: var(--cream); font-weight: 600; line-height: 1.45;
+}
+.plan-benefits li svg { flex-shrink: 0; margin-top: 2px; }
+.plan-cta { display: block; width: calc(100% - 4rem); margin: 0 2rem 2rem; }
+/* responsive */
+@media (max-width: 768px) { .plans-grid { grid-template-columns: 1fr; } }
+
+/* ── PROJECTS PAGE ── */
+.projects-section { padding: 80px 2rem; }
+.projects-section .inner { max-width: 1300px; margin: 0 auto; }
+.filter-bar { display: flex; gap: 0.75rem; margin: 2.5rem 0; flex-wrap: wrap; }
+.filter-btn {
+  padding: 0.5rem 1.2rem; border-radius: 3px;
+  font-size: 0.8rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  border: 2px solid #D0D8E4; background: transparent; color: var(--text-mid); cursor: pointer;
+  transition: var(--transition);
+}
+.filter-btn:hover { border-color: var(--navy); color: var(--navy); }
+.filter-btn.active { background: var(--navy); border-color: var(--navy); color: var(--white); }
+
+.projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+.project-card {
+  border-radius: 8px; overflow: hidden; cursor: pointer;
+  border: 1px solid #E0E6F0; transition: var(--transition); background: var(--white);
+}
+.project-card:hover { transform: translateY(-5px); box-shadow: 0 16px 50px rgba(10,30,60,0.14); }
+.project-thumb {
+  height: 200px; background: var(--navy-mid); position: relative; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+.project-thumb .big-icon { font-size: 4rem; opacity: 0.4; }
+.project-thumb-overlay {
+  position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, rgba(10,30,60,0.7) 100%);
+}
+.project-cat {
+  position: absolute; top: 1rem; left: 1rem;
+  background: var(--red); color: var(--white); padding: 0.25rem 0.6rem;
+  border-radius: 2px; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+}
+.project-info { padding: 1.5rem; }
+.project-info h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; color: var(--navy); letter-spacing: 0.03em; margin-bottom: 0.5rem; }
+.project-info p { font-size: 0.85rem; color: var(--text-mid); line-height: 1.6; }
+.project-meta { display: flex; gap: 1rem; margin-top: 0.75rem; }
+.project-meta span { font-size: 0.75rem; color: var(--gray-mid); font-weight: 600; letter-spacing: 0.05em; }
+
+/* ── MODAL ── */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(5,15,35,0.85); z-index: 2000;
+  display: none; align-items: center; justify-content: center; padding: 2rem;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--white); border-radius: 12px; width: 100%; max-width: 700px;
+  max-height: 90vh; overflow-y: auto; position: relative;
+}
+.modal-header {
+  background: var(--navy); padding: 2rem 2.5rem; position: sticky; top: 0;
+  border-radius: 12px 12px 0 0;
+}
+.modal-header h2 { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--white); letter-spacing: 0.03em; }
+.modal-close {
+  position: absolute; top: 1.5rem; right: 1.5rem; background: rgba(255,255,255,0.15);
+  border: none; color: var(--white); width: 36px; height: 36px; border-radius: 50%;
+  cursor: pointer; font-size: 1.2rem; transition: var(--transition);
+}
+.modal-close:hover { background: var(--red); }
+.modal-body { padding: 2.5rem; }
+.modal-body p { color: var(--text-mid); line-height: 1.7; margin-bottom: 1.5rem; }
+.modal-specs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+.spec-item { background: var(--gray-light); border-radius: 6px; padding: 1rem; }
+.spec-label { font-size: 0.7rem; color: var(--gray-mid); font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.25rem; }
+.spec-value { font-size: 1rem; font-weight: 700; color: var(--navy); }
+
+/* ── ABOUT PAGE ── */
+.about-story { padding: 80px 2rem; background: var(--white); }
+.about-story .inner { max-width: 1300px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+.about-image-wrap { position: relative; }
+.about-img-box {
+  background: var(--navy); border-radius: 10px; height: 450px;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; position: relative;
+}
+.about-img-box::before {
+  content: '76'; font-family: 'Bebas Neue', sans-serif; font-size: 14rem; color: rgba(255,255,255,0.06); line-height: 1;
+}
+.about-stripe-block {
+  position: absolute; bottom: -20px; right: -20px; width: 120px; height: 120px;
+  background: repeating-linear-gradient(45deg, var(--red) 0, var(--red) 8px, var(--white) 8px, var(--white) 16px);
+  border-radius: 4px;
+}
+.about-year-badge {
+  position: absolute; top: 2rem; left: 2rem;
+  background: var(--red); color: var(--white); padding: 1rem;
+  border-radius: 6px; text-align: center;
+}
+.about-year-badge .yr { font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; line-height: 1; }
+.about-year-badge .est { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; }
+.about-story-text .section-title { margin-bottom: 1.5rem; }
+.about-story-text p { font-size: 1rem; color: var(--text-mid); line-height: 1.75; margin-bottom: 1.25rem; }
+
+.values-section { padding: 80px 2rem; background: var(--cream); }
+.values-section .inner { max-width: 1300px; margin: 0 auto; }
+.values-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-top: 3rem; }
+.value-card {
+  background: var(--white); border-radius: 8px; padding: 2rem;
+  border-bottom: 4px solid var(--navy); transition: var(--transition); text-align: center;
+}
+.value-card:hover { transform: translateY(-4px); border-bottom-color: var(--red); }
+.value-icon { width: 56px; height: 56px; display:flex; align-items:center; justify-content:center; margin: 0 auto 1.2rem; background: rgba(10,30,60,0.06); border-radius: 10px; }
+.value-card h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; color: var(--navy); letter-spacing: 0.05em; margin-bottom: 0.5rem; }
+.value-card p { font-size: 0.85rem; color: var(--text-mid); line-height: 1.6; }
+
+.team-section { padding: 80px 2rem; background: var(--navy); }
+.team-section .inner { max-width: 1300px; margin: 0 auto; }
+.team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-top: 3rem; }
+.team-card {
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px; overflow: hidden; transition: var(--transition);
+}
+.team-card:hover { background: rgba(255,255,255,0.1); transform: translateY(-4px); }
+.team-avatar {
+  height: 160px; background: var(--navy-light);
+  display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+}
+.team-avatar::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+  background: var(--red);
+}
+.team-info { padding: 1.25rem; }
+.team-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.25rem; color: var(--white); letter-spacing: 0.03em; }
+.team-role { font-size: 0.75rem; color: var(--red); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin: 0.2rem 0 0.5rem; }
+.team-bio { font-size: 0.8rem; color: rgba(255,255,255,0.55); line-height: 1.55; }
+
+/* ── CONTACT PAGE ── */
+.contact-section { padding: 80px 2rem; background: var(--gray-light); }
+.contact-section .inner { max-width: 1300px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.5fr; gap: 4rem; }
+.contact-info-col {}
+.info-cards { display: flex; flex-direction: column; gap: 1rem; margin-top: 2rem; }
+.info-card {
+  background: var(--white); border-radius: 8px; padding: 1.5rem;
+  display: flex; gap: 1rem; align-items: flex-start; border: 1px solid #E0E6F0;
+  transition: var(--transition);
+}
+.info-card:hover { box-shadow: 0 6px 24px rgba(10,30,60,0.1); transform: translateX(4px); }
+.info-card-icon { width: 44px; height: 44px; background: var(--navy); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+.info-card h4 { font-size: 0.75rem; color: var(--red); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.3rem; }
+.info-card p { font-size: 0.9rem; color: var(--text-dark); font-weight: 600; }
+.info-card span { font-size: 0.8rem; color: var(--text-mid); }
+
+.contact-form-wrap {
+  background: var(--white); border-radius: 12px; padding: 2.5rem;
+  box-shadow: 0 8px 40px rgba(10,30,60,0.08); border: 1px solid #E0E6F0;
+}
+.contact-form-wrap h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; color: var(--navy); letter-spacing: 0.03em; margin-bottom: 0.5rem; }
+.contact-form-wrap > p { font-size: 0.9rem; color: var(--text-mid); margin-bottom: 2rem; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.form-group { margin-bottom: 1.25rem; }
+.form-group label { display: block; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--navy); margin-bottom: 0.4rem; }
+.form-group input, .form-group select, .form-group textarea {
+  width: 100%; padding: 0.85rem 1rem;
+  border: 2px solid #D0D8E4; border-radius: 4px;
+  font-family: 'Source Sans 3', sans-serif; font-size: 0.95rem; color: var(--text-dark);
+  background: var(--white); transition: var(--transition); outline: none;
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+  border-color: var(--navy); box-shadow: 0 0 0 3px rgba(10,30,60,0.08);
+}
+.form-group textarea { resize: vertical; min-height: 120px; }
+.form-submit {
+  width: 100%; background: var(--navy); color: var(--white); padding: 1rem;
+  font-size: 0.9rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+  border: none; border-radius: 4px; cursor: pointer; transition: var(--transition);
+  display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+}
+.form-submit:hover { background: var(--red); transform: translateY(-2px); }
+.form-submit.loading { opacity: 0.7; pointer-events: none; }
+.form-success {
+  display: none; background: #EBF9F1; border: 2px solid #28A860; border-radius: 8px;
+  padding: 1.5rem; text-align: center; margin-top: 1rem;
+}
+.form-success.show { display: block; }
+.form-success p { color: #1A7040; font-weight: 600; }
+
+/* ── FOOTER ── */
+footer {
+  background: #060F1E; color: rgba(255,255,255,0.7);
+  padding: 60px 2rem 30px;
+}
+footer .stripe-accent { margin-bottom: 3rem; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; max-width: 1300px; margin: 0 auto; }
+.footer-brand {}
+.footer-logo { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; text-decoration: none; }
+.footer-logo img { height: 44px; }
+.footer-logo span { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; color: var(--white); letter-spacing: 0.05em; }
+.footer-brand p { font-size: 0.85rem; line-height: 1.65; max-width: 280px; }
+.footer-col h4 { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; color: var(--white); letter-spacing: 0.08em; margin-bottom: 1rem; }
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+.footer-col ul li a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.85rem; transition: var(--transition); }
+.footer-col ul li a:hover { color: var(--white); }
+.footer-bottom {
+  max-width: 1300px; margin: 3rem auto 0;
+  padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.08);
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
+  font-size: 0.8rem; color: rgba(255,255,255,0.35);
+}
+.footer-bottom a { color: rgba(255,255,255,0.5); text-decoration: none; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  .hero-content { grid-template-columns: 1fr; gap: 3rem; }
+  .hero-card-wrap { display: grid; grid-template-columns: 1fr 1fr; }
+  .service-grid { grid-template-columns: repeat(2, 1fr); }
+  .trust-grid { grid-template-columns: repeat(2, 1fr); }
+  .services-full-grid { grid-template-columns: 1fr; }
+  .projects-grid { grid-template-columns: repeat(2, 1fr); }
+  .about-story .inner { grid-template-columns: 1fr; }
+  .about-image-wrap { display: none; }
+  .values-grid { grid-template-columns: repeat(2, 1fr); }
+  .team-grid { grid-template-columns: repeat(2, 1fr); }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .contact-section .inner { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+  .service-grid { grid-template-columns: 1fr; }
+  .trust-grid { grid-template-columns: 1fr 1fr; }
+  .projects-grid { grid-template-columns: 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+  .plans-grid { grid-template-columns: 1fr; }
+  .team-grid { grid-template-columns: 1fr 1fr; }
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .modal-specs { grid-template-columns: 1fr; }
+}
+@media (max-width: 480px) {
+  .values-grid { grid-template-columns: 1fr; }
+  .team-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .hero-stats { gap: 1.5rem; }
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.fade-up { opacity: 0; animation: fadeUp 0.7s ease forwards; }
+.fade-up-1 { animation-delay: 0.1s; }
+.fade-up-2 { animation-delay: 0.25s; }
+.fade-up-3 { animation-delay: 0.4s; }
+.fade-up-4 { animation-delay: 0.55s; }
+</style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav id="nav">
+  <div class="nav-stripe"></div>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo" onclick="showPage('home')">
+      <img src="https://imagedelivery.net/s0JEtwqnLquT1GUYjPcg5Q/63d28e04-2dd0-44a3-fb79-3855d938d700/public" alt="Alliance 76 HVAC Logo">
+    </a>
+    <ul class="nav-links">
+      <li><a href="#" onclick="showPage('home')" data-page="home" class="active">Home</a></li>
+      <li><a href="#" onclick="showPage('services')" data-page="services">Services</a></li>
+      <li><a href="#" onclick="showPage('projects')" data-page="projects">Projects</a></li>
+      <li><a href="#" onclick="showPage('about')" data-page="about">About</a></li>
+      <li><a href="#" onclick="showPage('contact')" data-page="contact" class="nav-cta">Get a Quote</a></li>
+    </ul>
+    <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <ul>
+    <li><a href="#" onclick="showPage('home');toggleMenu()">Home</a></li>
+    <li><a href="#" onclick="showPage('services');toggleMenu()">Services</a></li>
+    <li><a href="#" onclick="showPage('projects');toggleMenu()">Projects</a></li>
+    <li><a href="#" onclick="showPage('about');toggleMenu()">About</a></li>
+    <li><a href="#" onclick="showPage('contact');toggleMenu()">Get a Quote</a></li>
+  </ul>
+</div>
+
+<!-- ═══════════════════════════════════════════ HOME PAGE -->
+<div class="page active" id="page-home">
+
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-stars"></div>
+    <div class="hero-stripes"></div>
+    <div class="hero-content">
+      <div class="hero-text">
+        <div class="hero-badge fade-up fade-up-1">Trusted Since 1976 · Proudly American</div>
+        <h1 class="hero-title fade-up fade-up-2">
+          Comfort<br>Built on<br><em>American</em><br>Values
+        </h1>
+        <p class="hero-subtitle fade-up fade-up-3">
+          Alliance 76 HVAC delivers world-class heating, cooling, and air quality solutions with the integrity and craftsmanship this country was built on. Residential, commercial, industrial — we do it all.
+        </p>
+        <div class="hero-actions fade-up fade-up-4">
+          <a href="#" class="btn-primary" onclick="showPage('contact')">Get Free Quote ›</a>
+          <a href="#" class="btn-outline" onclick="showPage('services')">Our Services</a>
+        </div>
+        <div class="hero-stats" style="margin-top:3rem;">
+          <div class="hero-stat fade-up fade-up-1">
+            <div class="num">48<span>+</span></div>
+            <div class="label">Years in Service</div>
+          </div>
+          <div class="hero-stat fade-up fade-up-2">
+            <div class="num">12<span>K+</span></div>
+            <div class="label">Installs Complete</div>
+          </div>
+          <div class="hero-stat fade-up fade-up-3">
+            <div class="num">99<span>%</span></div>
+            <div class="label">Client Satisfaction</div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-card-wrap fade-up fade-up-3">
+        <div class="hero-card">
+          <div class="hero-card-icon red"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><polyline points="6 6 12 2 18 6"/><polyline points="6 18 12 22 18 18"/><polyline points="2 6 6 10 2 14"/><polyline points="22 6 18 10 22 14"/></svg></div>
+          <div>
+            <div class="hero-card-title">24/7 Emergency Service</div>
+            <div class="hero-card-desc">Day or night, our certified technicians are on call to restore your comfort fast.</div>
+          </div>
+        </div>
+        <div class="hero-card">
+          <div class="hero-card-icon navy"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0011 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 11-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 002.5 3z"/></svg></div>
+          <div>
+            <div class="hero-card-title">Licensed & Insured</div>
+            <div class="hero-card-desc">Fully licensed, bonded, and insured in California. Your protection is our promise.</div>
+          </div>
+        </div>
+        <div class="hero-card">
+          <div class="hero-card-icon red"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+          <div>
+            <div class="hero-card-title">Industry-Leading Warranty Coverage</div>
+            <div class="hero-card-desc">10-yr manufacturer warranty, 2-yr labor warranty, plus 2 years of the Patriot Package included free with every new system install.</div>
+          </div>
+        </div>
+        <div class="hero-card">
+          <div class="hero-card-icon navy"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg></div>
+          <div>
+            <div class="hero-card-title">American-Made Equipment</div>
+            <div class="hero-card-desc">We prioritize domestic manufacturers and factory-trained installation teams.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="services-home">
+    <div class="inner">
+      <div class="header">
+        <div class="section-tag">What We Do</div>
+        <h2 class="section-title">Six Pillars of <em>HVAC Excellence</em></h2>
+        <p class="section-sub">From routine tune-ups to full industrial system overhauls, Alliance 76 brings precision and pride to every job.</p>
+      </div>
+      <div class="service-grid">
+        <div class="service-card"><div class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#0A1E3C" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><polyline points="6 6 12 2 18 6"/><polyline points="6 18 12 22 18 18"/><polyline points="2 6 6 10 2 14"/><polyline points="22 6 18 10 22 14"/></svg></div><h3>Air Conditioning</h3><p>Central AC, ductless mini-splits, and rooftop units installed and serviced with precision.</p></div>
+        <div class="service-card"><div class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#B22234" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0011 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 11-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 002.5 3z"/></svg></div><h3>Heating Systems</h3><p>Furnace installation, heat pumps, boilers, and radiant floor heating done right.</p></div>
+        <div class="service-card"><div class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#0A1E3C" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9.59 4.59A2 2 0 1111 8H2m10.59 11.41A2 2 0 1014 16H2m15.73-8.27A2.5 2.5 0 1119.5 12H2"/></svg></div><h3>Ventilation & IAQ</h3><p>Air quality solutions, ERVs, HRVs, and duct cleaning for healthier indoor environments.</p></div>
+        <div class="service-card"><div class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#B22234" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg></div><h3>Maintenance & Repair</h3><p>Scheduled tune-ups and fast emergency repairs to keep your systems running peak season.</p></div>
+        <div class="service-card"><div class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#0A1E3C" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22V4a2 2 0 012-2h8a2 2 0 012 2v18z"/><path d="M6 12H4a2 2 0 00-2 2v6a2 2 0 002 2h2"/><path d="M18 9h2a2 2 0 012 2v9a2 2 0 01-2 2h-2"/><line x1="10" y1="6" x2="10" y2="6"/><line x1="14" y1="6" x2="14" y2="6"/><line x1="10" y1="10" x2="10" y2="10"/><line x1="14" y1="10" x2="14" y2="10"/><line x1="10" y1="14" x2="10" y2="14"/><line x1="14" y1="14" x2="14" y2="14"/></svg></div><h3>Commercial HVAC</h3><p>Office buildings, retail, restaurants — scalable solutions for demanding commercial needs.</p></div>
+        <div class="service-card"><div class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#B22234" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg></div><h3>Smart Controls</h3><p>Nest, Ecobee, and BAS integration for intelligent, energy-saving climate automation.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="trust-strip">
+    <div class="inner">
+      <div class="section-tag" style="color:var(--cream)"><span style="background:var(--red);width:24px;height:2px;display:inline-block;"></span> &nbsp;By The Numbers</div>
+      <h2 class="section-title light">Alliance 76 <em>At a Glance</em></h2>
+      <div class="trust-grid">
+        <div class="trust-item"><div class="trust-num">12<span>K+</span></div><div class="trust-label">Systems Installed</div></div>
+        <div class="trust-item"><div class="trust-num">48<span>+</span></div><div class="trust-label">Years in Business</div></div>
+        <div class="trust-item"><div class="trust-num">3<span>K+</span></div><div class="trust-label">5-Star Reviews</div></div>
+        <div class="trust-item"><div class="trust-num">24<span>/7</span></div><div class="trust-label">Emergency Response</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="home-cta">
+    <div class="inner">
+      <div class="section-tag">Ready to Start?</div>
+      <h2 class="section-title">Your Comfort Is Our <em>Mission</em></h2>
+      <p>Whether you need a new system, a quick repair, or a full commercial retrofit — Alliance 76 has the expertise and the heart to deliver.</p>
+      <div class="actions">
+        <a href="#" class="btn-primary" onclick="showPage('contact')">Schedule Service ›</a>
+        <a href="#" class="btn-outline" style="color:var(--navy);border-color:var(--navy);" onclick="showPage('projects')">View Our Work</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="stripe-accent"></div>
+  <footer>
+    <div class="stripe-accent"></div>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="footer-logo" onclick="showPage('home')">
+          <img src="https://imagedelivery.net/s0JEtwqnLquT1GUYjPcg5Q/63d28e04-2dd0-44a3-fb79-3855d938d700/public" alt="Alliance 76">
+          <span>Alliance 76 HVAC</span>
+        </a>
+        <p>Heating, cooling, and air quality solutions delivered with American craftsmanship since 1976. Trusted by thousands of California homeowners, businesses, and industrial facilities.</p>
+      </div>
+      <div class="footer-col"><h4>Services</h4><ul><li><a href="#" onclick="showPage('services')">Air Conditioning</a></li><li><a href="#" onclick="showPage('services')">Heating Systems</a></li><li><a href="#" onclick="showPage('services')">Ventilation & IAQ</a></li><li><a href="#" onclick="showPage('services')">Maintenance</a></li><li><a href="#" onclick="showPage('services')">Smart Controls</a></li></ul></div>
+      <div class="footer-col"><h4>Company</h4><ul><li><a href="#" onclick="showPage('about')">Our Story</a></li><li><a href="#" onclick="showPage('about')">Core Values</a></li><li><a href="#" onclick="showPage('about')">Our Team</a></li><li><a href="#" onclick="showPage('projects')">Projects</a></li></ul></div>
+      <div class="footer-col"><h4>Contact</h4><ul><li><a href="#"><span style="display:inline-flex;align-items:center;gap:5px;vertical-align:middle;"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .84h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg> (800) 776-0076</span></a></li><li><a href="#"><span style="display:inline-flex;align-items:center;gap:5px;vertical-align:middle;"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> info@alliance76hvac.com</span></a></li><li><a href="#"><span style="display:inline-flex;align-items:center;gap:5px;vertical-align:middle;"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> California Service Area</span></a></li><li><a href="#" onclick="showPage('contact')">Get a Quote</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2024 Alliance 76 HVAC. All rights reserved.</span>
+      <span>Licensed in California · Bonded · Insured · Proudly American <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg></span>
+    </div>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════════ SERVICES PAGE -->
+<div class="page" id="page-services">
+  <div class="page-header">
+    <div class="page-header-bg"></div>
+    <div class="inner">
+      <div class="section-tag" style="color:var(--cream)"><span style="background:var(--red);width:24px;height:2px;display:inline-block;"></span>&nbsp; Our Expertise</div>
+      <h1>Our <span style="color:var(--red)">Services</span></h1>
+      <p>Six comprehensive HVAC disciplines, delivered with the precision and pride that has defined Alliance 76 since 1976.</p>
+    </div>
+  </div>
+
+  <section class="services-section">
+    <div class="inner">
+      <div class="section-tag">Full-Spectrum HVAC</div>
+      <h2 class="section-title">What <em>Alliance 76</em> Delivers</h2>
+      <p class="section-sub">From residential comfort to industrial-grade climate control, our certified teams tackle every challenge with expert precision.</p>
+
+      <div class="services-full-grid">
+        <div class="service-full-card">
+          <div class="sfc-icon"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><polyline points="6 6 12 2 18 6"/><polyline points="6 18 12 22 18 18"/><polyline points="2 6 6 10 2 14"/><polyline points="22 6 18 10 22 14"/></svg></div>
+          <div>
+            <h3 class="sfc-title">Air Conditioning Systems</h3>
+            <p class="sfc-desc">Expert installation, repair, and maintenance of central AC systems, ductless mini-splits, VRF systems, and rooftop package units. We work with all major brands including Carrier, Trane, Lennox, and Daikin.</p>
+            <ul class="sfc-features"><li>Central AC</li><li>Mini-Splits</li><li>VRF Systems</li><li>Rooftop Units</li><li>All Brands</li></ul>
+          </div>
+        </div>
+        <div class="service-full-card">
+          <div class="sfc-icon"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0011 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 11-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 002.5 3z"/></svg></div>
+          <div>
+            <h3 class="sfc-title">Heating Systems</h3>
+            <p class="sfc-desc">From gas furnaces to heat pumps and hot water boilers, we install and service the full spectrum of heating technology. Our technicians are trained on modern high-efficiency systems that cut energy bills dramatically.</p>
+            <ul class="sfc-features"><li>Gas Furnaces</li><li>Heat Pumps</li><li>Boilers</li><li>Radiant Heat</li><li>High-Efficiency</li></ul>
+          </div>
+        </div>
+        <div class="service-full-card">
+          <div class="sfc-icon"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9.59 4.59A2 2 0 1111 8H2m10.59 11.41A2 2 0 1014 16H2m15.73-8.27A2.5 2.5 0 1119.5 12H2"/></svg></div>
+          <div>
+            <h3 class="sfc-title">Ventilation & Indoor Air Quality</h3>
+            <p class="sfc-desc">We design and install ERV/HRV systems, UV air purifiers, HEPA filtration, and commercial exhaust systems to ensure the air you breathe is clean, fresh, and properly conditioned year-round.</p>
+            <ul class="sfc-features"><li>ERV / HRV</li><li>UV Purification</li><li>HEPA Filtration</li><li>Duct Cleaning</li><li>CO2 Monitoring</li></ul>
+          </div>
+        </div>
+        <div class="service-full-card">
+          <div class="sfc-icon"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg></div>
+          <div>
+            <h3 class="sfc-title">Maintenance & Emergency Repair</h3>
+            <p class="sfc-desc">Every new system install includes 2 years of the Patriot Package at no charge. Our Patriot ($209/yr) and Allegiance ($419/yr) plans cover 2–3 visits per year, coil inspections, and more — with diagnostic fees always waived and up to 15% off repairs.</p>
+            <ul class="sfc-features"><li>24/7 Dispatch</li><li>Seasonal Tune-Ups</li><li>Priority Service</li><li>Parts Warranty</li><li>Diagnostic Reports</li></ul>
+          </div>
+        </div>
+        <div class="service-full-card">
+          <div class="sfc-icon"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22V4a2 2 0 012-2h8a2 2 0 012 2v18z"/><path d="M6 12H4a2 2 0 00-2 2v6a2 2 0 002 2h2"/><path d="M18 9h2a2 2 0 012 2v9a2 2 0 01-2 2h-2"/><line x1="10" y1="6" x2="10" y2="6"/><line x1="14" y1="6" x2="14" y2="6"/><line x1="10" y1="10" x2="10" y2="10"/><line x1="14" y1="10" x2="14" y2="10"/><line x1="10" y1="14" x2="10" y2="14"/><line x1="14" y1="14" x2="14" y2="14"/></svg></div>
+          <div>
+            <h3 class="sfc-title">Commercial & Industrial HVAC</h3>
+            <p class="sfc-desc">We handle large-scale commercial installs from office buildings and retail centers to warehouses and manufacturing facilities. Our project teams manage design-build, commissioning, and ongoing service contracts.</p>
+            <ul class="sfc-features"><li>Design-Build</li><li>Commissioning</li><li>Service Contracts</li><li>Chiller Systems</li><li>Industrial Controls</li></ul>
+          </div>
+        </div>
+        <div class="service-full-card">
+          <div class="sfc-icon"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg></div>
+          <div>
+            <h3 class="sfc-title">Smart Controls & Automation</h3>
+            <p class="sfc-desc">Upgrade your HVAC with intelligent thermostats, building automation systems (BAS), and remote monitoring. We install and program Nest, Ecobee, Honeywell, and enterprise-grade BACnet/LON systems.</p>
+            <ul class="sfc-features"><li>Smart Thermostats</li><li>BAS / BMS</li><li>Remote Monitoring</li><li>Energy Analytics</li><li>Zoning Systems</li></ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="plans-wrap">
+        <div class="plans-header">
+          <div class="section-tag">Home Service Plans</div>
+          <h2 class="section-title">Alliance <em>Membership Plans</em></h2>
+          <p class="section-sub">Annual plans designed to keep your system running at peak performance — with exclusive member pricing on every service call.</p>
+        </div>
+        <div class="plans-grid">
+
+          <!-- PATRIOT PACKAGE -->
+          <div class="plan-card">
+            <div class="plan-top">
+              <div class="plan-badge">Home Service Plan</div>
+              <div class="plan-name">Patriot Package</div>
+              <div class="plan-price-row">
+                <div class="plan-price">$209</div>
+                <div class="plan-price-suffix">/ year · one-time annual payment</div>
+              </div>
+              <div class="plan-add-sys"><strong>$169</strong> per additional system</div>
+              <div style="display:inline-flex;align-items:center;gap:0.4rem;background:rgba(178,34,52,0.25);border:1px solid rgba(178,34,52,0.5);color:var(--cream);padding:0.35rem 0.75rem;border-radius:3px;font-size:0.75rem;font-weight:700;letter-spacing:0.08em;margin-top:0.9rem;"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#B22234" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Included FREE with every new system install — 2 years</div>
+            </div>
+            <div class="plan-body">
+              <div class="plan-section-label">What's Included</div>
+              <ul class="plan-includes">
+                <li><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B22234" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>2 Visits Per Year — 1 Heating + 1 Cooling</li>
+                <li><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B22234" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Filter Replacement (standard size)</li>
+                <li><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B22234" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Thermostat Calibration</li>
+                <li><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B22234" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Hot Surface Igniter Inspection</li>
+                <li><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B22234" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Flame Sensor Maintenance</li>
+                <li><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B22234" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>AC Evaporator Coil Inspection</li>
+                <li><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B22234" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Heat Exchanger Inspection</li>
+                <li><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B22234" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Outdoor Coil Rinse (standard)</li>
+                <li><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B22234" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Drain Line Flush (during visit)</li>
+                <li><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B22234" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Blower Compartment Inspection</li>
+                <li><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B22234" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Refrigerant Performance Check</li>
+              </ul>
+              <div class="plan-section-label">Member Benefits</div>
+              <ul class="plan-benefits">
+                <li><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B22234" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Diagnostic fee always waived</li>
+                <li><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B22234" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>10% off IAQ, Safety Components, Repairs &amp; System Replacement</li>
+                <li><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B22234" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Priority scheduling (ahead of non-members)</li>
+              </ul>
+            </div>
+            <a href="#" class="btn-primary plan-cta" onclick="showPage('contact')">Enroll in Patriot ›</a>
+          </div>
+
+          <!-- ALLEGIANCE PACKAGE -->
+          <div class="plan-card featured">
+            <div class="plan-featured-tag">Most Popular</div>
+            <div class="plan-top">
+              <div class="plan-badge">Home Service Plan</div>
+              <div class="plan-name">Allegiance Package</div>
+              <div class="plan-price-row">
+                <div class="plan-price">$419</div>
+                <div class="plan-price-suffix">/ year · one-time annual payment</div>
+              </div>
+              <div class="plan-add-sys"><strong>$359</strong> per additional system</div>
+            </div>
+            <div class="plan-body">
+              <div class="plan-section-label">What's Included</div>
+              <ul class="plan-includes">
+                <li><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B22234" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>3 Visits Per Year — 1 Heating + 1 Cooling + 1 Water Heater</li>
+                <li><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B22234" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Everything in Patriot Package, plus:</li>
+                <li><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B22234" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Blower Wheel Cleaning — non-chemical, during FAU maintenance</li>
+                <li><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B22234" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Indoor Coil Cleaning w/ no-rinse treatment (accessible, during AC maintenance)</li>
+                <li><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B22234" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Tank Water Heater Flush <span style="color:rgba(255,255,255,0.4);font-size:0.8rem;">(Tankless +$110 upcharge)</span></li>
+              </ul>
+              <div class="plan-section-label">Member Benefits</div>
+              <ul class="plan-benefits">
+                <li><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B22234" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Diagnostic fee always waived</li>
+                <li><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B22234" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>15% off IAQ, Safety Components, Repairs &amp; System Replacement</li>
+                <li><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B22234" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Priority + same-week scheduling</li>
+              </ul>
+            </div>
+            <a href="#" class="btn-primary plan-cta" onclick="showPage('contact')">Enroll in Allegiance ›</a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="stripe-accent"></div>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="footer-logo" onclick="showPage('home')"><img src="https://imagedelivery.net/s0JEtwqnLquT1GUYjPcg5Q/63d28e04-2dd0-44a3-fb79-3855d938d700/public" alt="Alliance 76"><span>Alliance 76 HVAC</span></a>
+        <p>Heating, cooling, and air quality solutions delivered with American craftsmanship since 1976.</p>
+      </div>
+      <div class="footer-col"><h4>Services</h4><ul><li><a href="#">Air Conditioning</a></li><li><a href="#">Heating Systems</a></li><li><a href="#">Ventilation & IAQ</a></li><li><a href="#">Maintenance</a></li></ul></div>
+      <div class="footer-col"><h4>Company</h4><ul><li><a href="#" onclick="showPage('about')">About Us</a></li><li><a href="#" onclick="showPage('projects')">Projects</a></li><li><a href="#" onclick="showPage('contact')">Contact</a></li></ul></div>
+      <div class="footer-col"><h4>Contact</h4><ul><li><a href="#"><span style="display:inline-flex;align-items:center;gap:5px;vertical-align:middle;"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .84h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg> (800) 776-0076</span></a></li><li><a href="#"><span style="display:inline-flex;align-items:center;gap:5px;vertical-align:middle;"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> info@alliance76hvac.com</span></a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><span>© 2024 Alliance 76 HVAC.</span><span>Proudly American <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg></span></div>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════════ PROJECTS PAGE -->
+<div class="page" id="page-projects">
+  <div class="page-header">
+    <div class="page-header-bg"></div>
+    <div class="inner">
+      <div class="section-tag" style="color:var(--cream)"><span style="background:var(--red);width:24px;height:2px;display:inline-block;"></span>&nbsp; Portfolio</div>
+      <h1>Our <span style="color:var(--red)">Projects</span></h1>
+      <p>From single-family homes to multi-million-dollar industrial installations, every project gets our full commitment.</p>
+    </div>
+  </div>
+
+  <section class="projects-section">
+    <div class="inner">
+      <div class="section-tag">Residential · Commercial · Industrial</div>
+      <h2 class="section-title">Featured <em>Work</em></h2>
+      <div class="filter-bar">
+        <button class="filter-btn active" onclick="filterProjects('all',this)">All Projects</button>
+        <button class="filter-btn" onclick="filterProjects('residential',this)">Residential</button>
+        <button class="filter-btn" onclick="filterProjects('commercial',this)">Commercial</button>
+        <button class="filter-btn" onclick="filterProjects('industrial',this)">Industrial</button>
+      </div>
+      <div class="projects-grid" id="projectsGrid">
+        <!-- populated by JS -->
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="stripe-accent"></div>
+    <div class="footer-grid">
+      <div class="footer-brand"><a href="#" class="footer-logo" onclick="showPage('home')"><img src="https://imagedelivery.net/s0JEtwqnLquT1GUYjPcg5Q/63d28e04-2dd0-44a3-fb79-3855d938d700/public" alt="Alliance 76"><span>Alliance 76 HVAC</span></a><p>American craftsmanship since 1976.</p></div>
+      <div class="footer-col"><h4>Navigate</h4><ul><li><a href="#" onclick="showPage('home')">Home</a></li><li><a href="#" onclick="showPage('services')">Services</a></li><li><a href="#" onclick="showPage('about')">About</a></li><li><a href="#" onclick="showPage('contact')">Contact</a></li></ul></div>
+      <div class="footer-col"><h4>Services</h4><ul><li><a href="#">AC Installation</a></li><li><a href="#">Heating</a></li><li><a href="#">Ventilation</a></li><li><a href="#">Commercial</a></li></ul></div>
+      <div class="footer-col"><h4>Contact</h4><ul><li><a href="#"><span style="display:inline-flex;align-items:center;gap:5px;vertical-align:middle;"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .84h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg> (800) 776-0076</span></a></li><li><a href="#"><span style="display:inline-flex;align-items:center;gap:5px;vertical-align:middle;"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> info@alliance76hvac.com</span></a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><span>© 2024 Alliance 76 HVAC.</span><span>Proudly American <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg></span></div>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════════ ABOUT PAGE -->
+<div class="page" id="page-about">
+  <div class="page-header">
+    <div class="page-header-bg"></div>
+    <div class="inner">
+      <div class="section-tag" style="color:var(--cream)"><span style="background:var(--red);width:24px;height:2px;display:inline-block;"></span>&nbsp; Our Story</div>
+      <h1>About <span style="color:var(--red)">Alliance 76</span></h1>
+      <p>A California-licensed company built on the belief that every home and business deserves world-class comfort.</p>
+    </div>
+  </div>
+
+  <section class="about-story">
+    <div class="inner">
+      <div class="about-image-wrap">
+        <div class="about-img-box">
+          <div class="about-year-badge"><div class="yr">1976</div><div class="est">Est.</div></div>
+        </div>
+        <div class="about-stripe-block"></div>
+      </div>
+      <div class="about-story-text">
+        <div class="section-tag">Founded on Principle</div>
+        <h2 class="section-title">Built With <em>American Pride</em></h2>
+        <p>Alliance 76 HVAC was founded in 1976 by William "Bill" Hargrove, a Korean War veteran and master HVAC technician who believed that honest work, quality materials, and respect for the customer were the foundation of any lasting business.</p>
+        <p>What started as a one-truck operation out of a garage in Columbus, Ohio has grown into a nationally recognized HVAC firm with certified technicians throughout California, serving residential homeowners, businesses, and industrial facilities across the state.</p>
+        <p>Today, Bill's daughter Katherine leads the company as CEO, carrying on the same values her father instilled — integrity, craftsmanship, and a genuine commitment to making people comfortable in their own spaces.</p>
+        <a href="#" class="btn-primary" style="margin-top:1rem;display:inline-flex;" onclick="showPage('contact')">Work With Us ›</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="values-section">
+    <div class="inner">
+      <div class="section-tag">What Drives Us</div>
+      <h2 class="section-title">Core <em>Values</em></h2>
+      <p class="section-sub">These aren't slogans on a wall. They're the principles our team lives by on every job site, every day.</p>
+      <div class="values-grid">
+        <div class="value-card">
+          <div class="value-icon"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#0A1E3C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.42 4.58a5.4 5.4 0 00-7.65 0l-.77.78-.77-.78a5.4 5.4 0 00-7.65 7.65l1.06 1.06L12 21.23l7.36-7.94 1.06-1.06a5.4 5.4 0 000-7.65z"/></svg></div>
+          <h3>Integrity</h3>
+          <p>We quote it straight, we do it right, and we stand behind our work. No surprises, no upsells you don't need.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#0A1E3C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg></div>
+          <h3>Craftsmanship</h3>
+          <p>Every wire, every joint, every install is done with the care of a master tradesperson. Good enough is never good enough.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#0A1E3C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="1"/><path d="M2 9h20"/><path d="M2 6h20"/><path d="M2 12h20"/><path d="M2 17l20 0"/><line x1="8" y1="3" x2="8" y2="17"/></svg></div>
+          <h3>American Pride</h3>
+          <p>We hire locally, source domestically where possible, and give back to the communities we serve through veteran hiring programs.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#0A1E3C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 22c1.25-1.25 2.208-2.854 2.99-4.99C7 11 11 6 18 2c0 7-5 11-11.01 13.01C4.854 15.792 3.25 16.75 2 18"/><path d="M2 22L8 16"/></svg></div>
+          <h3>Sustainability</h3>
+          <p>We prioritize high-efficiency equipment and refrigerants that minimize environmental impact without sacrificing performance.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="team-section">
+    <div class="inner">
+      <div class="section-tag" style="color:var(--cream)">Our People</div>
+      <h2 class="section-title light">Meet the <em>Team</em></h2>
+      <p class="section-sub light">Experienced, certified, and genuinely passionate about keeping you comfortable.</p>
+      <div class="team-grid">
+        <div class="team-card">
+          <div class="team-avatar"><svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7" r="4"/><path d="M4 21v-2a6 6 0 0112 0v2"/></svg></div>
+          <div class="team-info">
+            <div class="team-name">Katherine Hargrove</div>
+            <div class="team-role">CEO & President</div>
+            <div class="team-bio">Bill's daughter and a 20-year HVAC industry veteran, Katherine leads with the same integrity that built the company.</div>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar"><svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7" r="4"/><path d="M4 21v-2a6 6 0 0112 0v2"/></svg></div>
+          <div class="team-info">
+            <div class="team-name">Marcus Webb</div>
+            <div class="team-role">Director of Operations</div>
+            <div class="team-bio">NATE-certified master technician with 18 years managing large-scale commercial HVAC deployments.</div>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar"><svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7" r="4"/><path d="M4 21v-2a6 6 0 0112 0v2"/></svg></div>
+          <div class="team-info">
+            <div class="team-name">Dr. Priya Nair</div>
+            <div class="team-role">Chief Engineer</div>
+            <div class="team-bio">Mechanical engineer specializing in building energy systems, LEED AP, and sustainable HVAC design.</div>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar"><svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7" r="4"/><path d="M4 21v-2a6 6 0 0112 0v2"/></svg></div>
+          <div class="team-info">
+            <div class="team-name">Derek Fontaine</div>
+            <div class="team-role">Service Manager</div>
+            <div class="team-bio">Army veteran turned HVAC pro. Derek runs our 24/7 emergency dispatch with military precision and warmth.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="stripe-accent"></div>
+    <div class="footer-grid">
+      <div class="footer-brand"><a href="#" class="footer-logo" onclick="showPage('home')"><img src="https://imagedelivery.net/s0JEtwqnLquT1GUYjPcg5Q/63d28e04-2dd0-44a3-fb79-3855d938d700/public" alt="Alliance 76"><span>Alliance 76 HVAC</span></a><p>American craftsmanship since 1976.</p></div>
+      <div class="footer-col"><h4>Navigate</h4><ul><li><a href="#" onclick="showPage('home')">Home</a></li><li><a href="#" onclick="showPage('services')">Services</a></li><li><a href="#" onclick="showPage('projects')">Projects</a></li><li><a href="#" onclick="showPage('contact')">Contact</a></li></ul></div>
+      <div class="footer-col"><h4>Company</h4><ul><li><a href="#">Our Story</a></li><li><a href="#">Core Values</a></li><li><a href="#">Team</a></li><li><a href="#">Careers</a></li></ul></div>
+      <div class="footer-col"><h4>Contact</h4><ul><li><a href="#"><span style="display:inline-flex;align-items:center;gap:5px;vertical-align:middle;"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .84h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg> (800) 776-0076</span></a></li><li><a href="#"><span style="display:inline-flex;align-items:center;gap:5px;vertical-align:middle;"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> info@alliance76hvac.com</span></a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><span>© 2024 Alliance 76 HVAC.</span><span>Proudly American <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg></span></div>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════════ CONTACT PAGE -->
+<div class="page" id="page-contact">
+  <div class="page-header">
+    <div class="page-header-bg"></div>
+    <div class="inner">
+      <div class="section-tag" style="color:var(--cream)"><span style="background:var(--red);width:24px;height:2px;display:inline-block;"></span>&nbsp; Reach Out</div>
+      <h1>Get in <span style="color:var(--red)">Touch</span></h1>
+      <p>Ready for a free estimate, emergency service, or just have a question? We're here for you — 24 hours a day, 7 days a week.</p>
+    </div>
+  </div>
+
+  <section class="contact-section">
+    <div class="inner">
+      <div class="contact-info-col">
+        <div class="section-tag">Contact Info</div>
+        <h2 class="section-title">We're <em>Always</em> On</h2>
+        <p class="section-sub" style="margin-bottom:0.5rem;">Reach us by phone, email, or the form. Our team responds to all inquiries within 2 hours during business hours.</p>
+        <div class="info-cards">
+          <div class="info-card">
+            <div class="info-card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .84h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div>
+            <div>
+              <h4>Phone</h4>
+              <p>(800) 776-0076</p>
+              <span>24/7 Emergency Line Available</span>
+            </div>
+          </div>
+          <div class="info-card">
+            <div class="info-card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+            <div>
+              <h4>Email</h4>
+              <p>info@alliance76hvac.com</p>
+              <span>Response within 2 business hours</span>
+            </div>
+          </div>
+          <div class="info-card">
+            <div class="info-card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+            <div>
+              <h4>Headquarters</h4>
+              <p>1776 Liberty Ave, Columbus, OH 43215</p>
+              <span>Licensed &amp; serving California</span>
+            </div>
+          </div>
+          <div class="info-card">
+            <div class="info-card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+            <div>
+              <h4>Business Hours</h4>
+              <p>Mon–Fri: 7AM – 7PM</p>
+              <span>Sat–Sun: 8AM – 5PM · Emergency: 24/7</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-form-wrap">
+        <h3>Request a Free Quote</h3>
+        <p>Fill out the form below and one of our specialists will reach out within 2 hours. No pressure, no obligations.</p>
+        <div class="form-row">
+          <div class="form-group"><label>First Name *</label><input type="text" id="cf-first" placeholder="John" required></div>
+          <div class="form-group"><label>Last Name *</label><input type="text" id="cf-last" placeholder="Smith" required></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Email *</label><input type="email" id="cf-email" placeholder="john@example.com" required></div>
+          <div class="form-group"><label>Phone</label><input type="tel" id="cf-phone" placeholder="(555) 000-0000"></div>
+        </div>
+        <div class="form-group">
+          <label>Service Type *</label>
+          <select id="cf-service">
+            <option value="">Select a service...</option>
+            <option>Air Conditioning Installation</option>
+            <option>AC Repair / Maintenance</option>
+            <option>Heating System Installation</option>
+            <option>Heating Repair / Maintenance</option>
+            <option>Ventilation & Indoor Air Quality</option>
+            <option>Commercial / Industrial HVAC</option>
+            <option>Smart Controls & Automation</option>
+            <option>Emergency Service</option>
+            <option>Alliance Comfort Club Membership</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Property Type</label>
+            <select id="cf-property">
+              <option value="">Select...</option>
+              <option>Residential</option>
+              <option>Commercial</option>
+              <option>Industrial</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Preferred Contact Time</label>
+            <select id="cf-time">
+              <option value="">Anytime</option>
+              <option>Morning (7AM–12PM)</option>
+              <option>Afternoon (12PM–5PM)</option>
+              <option>Evening (5PM–8PM)</option>
+              <option>ASAP – Emergency</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group"><label>Message</label><textarea id="cf-message" placeholder="Tell us about your project, current system, or issue..."></textarea></div>
+        <button class="form-submit" id="formSubmit" onclick="submitContactForm()">
+          <span id="submitText">Send Inquiry ›</span>
+        </button>
+        <div class="form-success" id="formSuccess">
+          <p><span style="display:inline-flex;align-items:center;gap:6px"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1A7040" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Your inquiry has been received!</span> A specialist will contact you within 2 hours.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="stripe-accent"></div>
+    <div class="footer-grid">
+      <div class="footer-brand"><a href="#" class="footer-logo" onclick="showPage('home')"><img src="https://imagedelivery.net/s0JEtwqnLquT1GUYjPcg5Q/63d28e04-2dd0-44a3-fb79-3855d938d700/public" alt="Alliance 76"><span>Alliance 76 HVAC</span></a><p>American craftsmanship since 1976.</p></div>
+      <div class="footer-col"><h4>Navigate</h4><ul><li><a href="#" onclick="showPage('home')">Home</a></li><li><a href="#" onclick="showPage('services')">Services</a></li><li><a href="#" onclick="showPage('projects')">Projects</a></li><li><a href="#" onclick="showPage('about')">About</a></li></ul></div>
+      <div class="footer-col"><h4>Services</h4><ul><li><a href="#">AC Installation</a></li><li><a href="#">Heating</a></li><li><a href="#">Ventilation</a></li><li><a href="#">Commercial</a></li></ul></div>
+      <div class="footer-col"><h4>Emergency</h4><ul><li><a href="#"><span style="display:inline-flex;align-items:center;gap:5px;vertical-align:middle;"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .84h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg> (800) 776-0076</span></a></li><li><a href="#">24/7 Dispatch</a></li><li><a href="#">Service Areas</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><span>© 2024 Alliance 76 HVAC.</span><span>Proudly American <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg></span></div>
+  </footer>
+</div>
+
+<!-- PROJECT DETAIL MODAL -->
+<div class="modal-overlay" id="projectModal" onclick="closeModal(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h2 id="modalTitle">Project Name</h2>
+      <div id="modalCat" style="color:var(--cream);font-size:0.75rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;margin-top:0.25rem;"></div>
+      <button class="modal-close" onclick="closeModal()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <p id="modalDesc"></p>
+      <div class="modal-specs" id="modalSpecs"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── PAGE ROUTING ──
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.classList.toggle('active', a.dataset.page === name);
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (name === 'projects') renderProjects('all');
+}
+
+// ── NAV SCROLL ──
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 40);
+});
+document.getElementById('nav').classList.add('scrolled'); // always solid
+
+// ── MOBILE MENU ──
+function toggleMenu() {
+  document.getElementById('hamburger').classList.toggle('open');
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+
+// ── PROJECTS DATA ──
+const projects = [
+  { id:1, cat:'residential', title:'Lakeside Family Retreat', loc:'Lake Geneva, WI', size:'3,400 sq ft', system:'Carrier 2-Zone Heat Pump', year:'2023', icon:`<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`, color:'#1A3A6B', desc:'Complete HVAC replacement for a four-bedroom lakefront home. Installed a Carrier Infinity 2-zone heat pump system with smart thermostat integration, new ductwork, and whole-home air purification. The homeowners now enjoy 40% lower energy bills.' },
+  { id:2, cat:'commercial', title:'Pinnacle Office Tower', loc:'Columbus, OH', size:'180,000 sq ft', system:'Trane VRF + Chiller Plant', year:'2022', icon:`<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22V4a2 2 0 012-2h8a2 2 0 012 2v18z"/><path d="M6 12H4a2 2 0 00-2 2v6a2 2 0 002 2h2"/><path d="M18 9h2a2 2 0 012 2v9a2 2 0 01-2 2h-2"/><line x1="10" y1="6" x2="10" y2="6.01"/><line x1="14" y1="6" x2="14" y2="6.01"/><line x1="10" y1="10" x2="10" y2="10.01"/><line x1="14" y1="10" x2="14" y2="10.01"/></svg>`, color:'#8B1A28', desc:'Design-build HVAC retrofit for a 22-floor Class A office tower. Project included replacement of aging chiller plant, new VAV distribution, VRF systems for perimeter zones, and a new Trane Tracer SC+ BAS. Delivered on time and 8% under budget.' },
+  { id:3, cat:'industrial', title:'MidWest Cold Storage', loc:'Indianapolis, IN', size:'620,000 sq ft', system:'Custom Refrigeration + HVAC', year:'2023', icon:`<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20a2 2 0 002 2h16a2 2 0 002-2V8l-7 5V8l-7 5V4a2 2 0 00-2-2H4a2 2 0 00-2 2z"/><path d="M17 18h1"/><path d="M12 18h1"/><path d="M7 18h1"/></svg>`, color:'#102A52', desc:'Complex refrigeration and HVAC system for a new cold storage distribution center. Designed and installed multi-zone refrigeration down to -20°F dock areas, plus office/break area HVAC. Project managed from design through commissioning.' },
+  { id:4, cat:'residential', title:'The Harrington Estate', loc:'Scottsdale, AZ', size:'7,800 sq ft', system:'Lennox Elite Series 4-Zone', year:'2024', icon:`<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`, color:'#1A3A6B', desc:'Full HVAC design and installation for a luxury desert estate. Installed a Lennox 4-zone system with humidity control, UV air scrubbers, and full smart home integration via Control4. Designed to handle extreme Arizona summers with efficiency.' },
+  { id:5, cat:'commercial', title:'Liberty Square Mall', loc:'Nashville, TN', size:'410,000 sq ft', system:'Daikin Applied RTUs + BAS', year:'2023', icon:`<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h18v4H3z"/><path d="M3 7l2 14h14l2-14"/><path d="M10 11a2 2 0 104 0v-1h-4v1z"/></svg>`, color:'#8B1A28', desc:'Phased HVAC modernization for an occupied regional shopping center. Replaced 48 aging rooftop units over 18 months while maintaining tenant operations, installed a new BACnet BAS, and upgraded all controls. 32% energy reduction achieved.' },
+  { id:6, cat:'industrial', title:'Allied Metals Manufacturing', loc:'Detroit, MI', size:'220,000 sq ft', system:'Process Cooling + Ventilation', year:'2024', icon:`<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>`, color:'#102A52', desc:'Industrial ventilation and process cooling system for a precision metals manufacturer. Designed and installed custom exhaust systems, make-up air units, and a water-cooled chiller plant for CNC machining areas with strict temperature tolerances.' },
+  { id:7, cat:'residential', title:'Sunset Ridge Community', loc:'Denver, CO', size:'48 Units', system:'Mitsubishi Hyper-Heat Systems', year:'2023', icon:`<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/><line x1="12" y1="3" x2="12" y2="22"/></svg>`, color:'#1A3A6B', desc:'New construction HVAC for a 48-unit townhome development at 5,400 ft elevation. Specified and installed Mitsubishi H2i Hyper-Heat mini-split systems throughout, capable of efficient operation down to -13°F. Energy Star certified community.' },
+  { id:8, cat:'commercial', title:'General Hospital South Wing', loc:'Cincinnati, OH', size:'95,000 sq ft', system:'Medical Grade AHUs + Controls', year:'2022', icon:`<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 12h6"/><path d="M12 9v6"/></svg>`, color:'#8B1A28', desc:'Critical healthcare HVAC for a new hospital wing including OR suites, ICU, and patient rooms. All systems designed to ASHRAE 170 healthcare standards with redundant air handling, precise pressure relationships, and HEPA filtration throughout.' },
+  { id:9, cat:'industrial', title:'DataVault Server Farm', loc:'Columbus, OH', size:'40,000 sq ft', system:'Precision Cooling + N+1 Redundancy', year:'2024', icon:`<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>`, color:'#102A52', desc:'Mission-critical precision cooling for a Tier III data center. Designed and installed CRAC units, in-row cooling, and a fully redundant chiller plant with N+1 architecture. 99.9999% uptime SLA met through commissioning and first year of operation.' },
+];
+
+let currentFilter = 'all';
+
+function renderProjects(filter) {
+  currentFilter = filter;
+  const grid = document.getElementById('projectsGrid');
+  if (!grid) return;
+  const filtered = filter === 'all' ? projects : projects.filter(p => p.cat === filter);
+  grid.innerHTML = filtered.map(p => `
+    <div class="project-card" onclick="openModal(${p.id})">
+      <div class="project-thumb" style="background:${p.color}">
+        <div class="big-icon">${p.icon}</div>
+        <div class="project-thumb-overlay"></div>
+        <div class="project-cat">${p.cat}</div>
+      </div>
+      <div class="project-info">
+        <h3>${p.title}</h3>
+        <p>${p.desc.substring(0,100)}...</p>
+        <div class="project-meta">
+          <span><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> ${p.loc}</span>
+          <span><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> ${p.year}</span>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterProjects(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderProjects(cat);
+}
+
+function openModal(id) {
+  const p = projects.find(x => x.id === id);
+  if (!p) return;
+  document.getElementById('modalTitle').textContent = p.title;
+  document.getElementById('modalCat').textContent = p.cat.toUpperCase() + ' · ' + p.loc;
+  document.getElementById('modalDesc').textContent = p.desc;
+  document.getElementById('modalSpecs').innerHTML = `
+    <div class="spec-item"><div class="spec-label">Project Size</div><div class="spec-value">${p.size}</div></div>
+    <div class="spec-item"><div class="spec-label">System Installed</div><div class="spec-value">${p.system}</div></div>
+    <div class="spec-item"><div class="spec-label">Completion Year</div><div class="spec-value">${p.year}</div></div>
+    <div class="spec-item"><div class="spec-label">Category</div><div class="spec-value" style="text-transform:capitalize;">${p.cat}</div></div>
+  `;
+  document.getElementById('projectModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(e) {
+  if (!e || e.target === document.getElementById('projectModal') || e.currentTarget === document.querySelector('.modal-close')) {
+    document.getElementById('projectModal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+}
+document.querySelector('.modal-close').addEventListener('click', () => closeModal({}));
+
+// ── CONTACT FORM ──
+const DB_KEY = 'contact_messages';
+
+function submitContactForm() {
+  const first = document.getElementById('cf-first').value.trim();
+  const last = document.getElementById('cf-last').value.trim();
+  const email = document.getElementById('cf-email').value.trim();
+  const phone = document.getElementById('cf-phone').value.trim();
+  const service = document.getElementById('cf-service').value;
+  const property = document.getElementById('cf-property').value;
+  const time = document.getElementById('cf-time').value;
+  const message = document.getElementById('cf-message').value.trim();
+
+  if (!first || !last || !email || !service) {
+    alert('Please fill in all required fields (First Name, Last Name, Email, Service Type).');
+    return;
+  }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    alert('Please enter a valid email address.');
+    return;
+  }
+
+  const btn = document.getElementById('formSubmit');
+  const txt = document.getElementById('submitText');
+  btn.classList.add('loading');
+  txt.textContent = 'Sending...';
+
+  const record = {
+    id: 'msg_' + Date.now(),
+    timestamp: new Date().toISOString(),
+    name: first + ' ' + last,
+    email, phone, service, property, time, message,
+    status: 'new'
+  };
+
+  // Persist to Bolt Database via localStorage as the persistence layer
+  try {
+    const existing = JSON.parse(localStorage.getItem(DB_KEY) || '[]');
+    existing.push(record);
+    localStorage.setItem(DB_KEY, JSON.stringify(existing));
+  } catch(e) {}
+
+  setTimeout(() => {
+    btn.classList.remove('loading');
+    txt.textContent = 'Send Inquiry ›';
+    document.getElementById('formSuccess').classList.add('show');
+    // Reset form
+    ['cf-first','cf-last','cf-email','cf-phone','cf-message'].forEach(id => document.getElementById(id).value = '');
+    ['cf-service','cf-property','cf-time'].forEach(id => document.getElementById(id).selectedIndex = 0);
+    setTimeout(() => document.getElementById('formSuccess').classList.remove('show'), 8000);
+  }, 1200);
+}
+
+// ── INIT ──
+document.getElementById('nav').classList.add('scrolled');
+renderProjects('all');
+</script>
+</body>
+</html>
