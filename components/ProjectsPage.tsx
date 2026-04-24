@@ -220,7 +220,6 @@ export default function ProjectsPage({ onNavigate }: ProjectsPageProps) {
                         <span>Photos Coming Soon</span>
                       </div>
                     )}
-                    <div className="project-cat">{p.cat}</div>
                   </div>
                   <div className="project-info">
                     <h3>{p.title}</h3>
