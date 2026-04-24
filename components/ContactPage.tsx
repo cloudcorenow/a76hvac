@@ -9,23 +9,16 @@ interface ContactPageProps {
 }
 
 export default function ContactPage({ onNavigate }: ContactPageProps) {
-  const initialForm = {
+  const [form, setForm] = useState({
     firstName: '',
     lastName: '',
     email: '',
     phone: '',
-    propertyAddress: '',
-    city: '',
-    zipCode: '',
-    property: '',
     service: '',
-    currentSystemAge: '',
-    homeSize: '',
-    serviceTimeline: '',
-    hoa: '',
+    property: '',
+    preferredTime: '',
     message: '',
-  };
-  const [form, setForm] = useState(initialForm);
+  });
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
@@ -38,18 +31,8 @@ export default function ContactPage({ onNavigate }: ContactPageProps) {
     e.preventDefault();
     setError('');
 
-    if (
-      !form.firstName ||
-      !form.lastName ||
-      !form.email ||
-      !form.phone ||
-      !form.propertyAddress ||
-      !form.city ||
-      !form.zipCode ||
-      !form.property ||
-      !form.service
-    ) {
-      setError('Please fill in all required fields marked with *.');
+    if (!form.firstName || !form.lastName || !form.email || !form.service) {
+      setError('Please fill in all required fields (First Name, Last Name, Email, Service Type).');
       return;
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
@@ -66,13 +49,7 @@ export default function ContactPage({ onNavigate }: ContactPageProps) {
         phone: form.phone,
         service: form.service,
         property: form.property,
-        property_address: form.propertyAddress,
-        city: form.city,
-        zip_code: form.zipCode,
-        current_system_age: form.currentSystemAge,
-        home_size: form.homeSize,
-        service_timeline: form.serviceTimeline,
-        hoa: form.hoa,
+        preferred_time: form.preferredTime,
         message: form.message,
       });
     } catch {
@@ -84,7 +61,7 @@ export default function ContactPage({ onNavigate }: ContactPageProps) {
     setLoading(false);
 
     setSuccess(true);
-    setForm(initialForm);
+    setForm({ firstName: '', lastName: '', email: '', phone: '', service: '', property: '', preferredTime: '', message: '' });
     setTimeout(() => setSuccess(false), 8000);
   };
 
@@ -148,8 +125,8 @@ export default function ContactPage({ onNavigate }: ContactPageProps) {
           </div>
 
           <div className="contact-form-wrap">
-            <h3>Request Your Free HVAC Consultation</h3>
-            <p>Let&apos;s discuss how we can keep your home comfortable!</p>
+            <h3>Request a Free Quote</h3>
+            <p>Fill out the form below and one of our specialists will reach out within 2 hours. No pressure, no obligations.</p>
             <form onSubmit={handleSubmit}>
               <div className="form-row">
                 <div className="form-group">
@@ -163,105 +140,53 @@ export default function ContactPage({ onNavigate }: ContactPageProps) {
               </div>
               <div className="form-row">
                 <div className="form-group">
-                  <label>Email Address *</label>
+                  <label>Email *</label>
                   <input type="email" name="email" value={form.email} onChange={handleChange} placeholder="john@example.com" required />
                 </div>
                 <div className="form-group">
-                  <label>Phone Number *</label>
-                  <input type="tel" name="phone" value={form.phone} onChange={handleChange} placeholder="555-555-5555" required />
+                  <label>Phone</label>
+                  <input type="tel" name="phone" value={form.phone} onChange={handleChange} placeholder="(555) 000-0000" />
                 </div>
               </div>
               <div className="form-group">
-                <label>Property Address *</label>
-                <input type="text" name="propertyAddress" value={form.propertyAddress} onChange={handleChange} placeholder="Street Address" required />
+                <label>Service Type *</label>
+                <select name="service" value={form.service} onChange={handleChange} required>
+                  <option value="">Select a service...</option>
+                  <option>Air Conditioning Installation</option>
+                  <option>AC Repair / Maintenance</option>
+                  <option>Heating System Installation</option>
+                  <option>Heating Repair / Maintenance</option>
+                  <option>Ventilation & Indoor Air Quality</option>
+                  <option>Commercial / Industrial HVAC</option>
+                  <option>Smart Controls & Automation</option>
+                  <option>Emergency Service</option>
+                  <option>Allegiance Membership Plan</option>
+                  <option>Other</option>
+                </select>
               </div>
               <div className="form-row">
                 <div className="form-group">
-                  <label>City *</label>
-                  <input type="text" name="city" value={form.city} onChange={handleChange} required />
-                </div>
-                <div className="form-group">
-                  <label>Zip Code *</label>
-                  <input type="text" name="zipCode" value={form.zipCode} onChange={handleChange} required />
-                </div>
-              </div>
-              <div className="form-row">
-                <div className="form-group">
-                  <label>Property Type *</label>
-                  <select name="property" value={form.property} onChange={handleChange} required>
-                    <option value="">Select Property Type</option>
+                  <label>Property Type</label>
+                  <select name="property" value={form.property} onChange={handleChange}>
+                    <option value="">Select...</option>
                     <option>Residential</option>
                     <option>Commercial</option>
                   </select>
                 </div>
                 <div className="form-group">
-                  <label>Service Needed *</label>
-                  <select name="service" value={form.service} onChange={handleChange} required>
-                    <option value="">Select Service Type</option>
-                    <option>Air Conditioning Installation</option>
-                    <option>AC Repair / Maintenance</option>
-                    <option>Heating System Installation</option>
-                    <option>Heating Repair / Maintenance</option>
-                    <option>Ventilation & Indoor Air Quality</option>
-                    <option>Commercial / Industrial HVAC</option>
-                    <option>Smart Controls & Automation</option>
-                    <option>Emergency Service</option>
-                    <option>Allegiance Membership Plan</option>
-                    <option>Other</option>
-                  </select>
-                </div>
-              </div>
-              <div className="form-row">
-                <div className="form-group">
-                  <label>Current System Age</label>
-                  <select name="currentSystemAge" value={form.currentSystemAge} onChange={handleChange}>
-                    <option value="">Select Age</option>
-                    <option>Less than 5 years</option>
-                    <option>5–10 years</option>
-                    <option>10–15 years</option>
-                    <option>15–20 years</option>
-                    <option>20+ years</option>
-                    <option>No existing system</option>
-                    <option>Not sure</option>
-                  </select>
-                </div>
-                <div className="form-group">
-                  <label>Approximate Home/Building Size</label>
-                  <select name="homeSize" value={form.homeSize} onChange={handleChange}>
-                    <option value="">Select Size</option>
-                    <option>Under 1,000 sq ft</option>
-                    <option>1,000–1,500 sq ft</option>
-                    <option>1,500–2,500 sq ft</option>
-                    <option>2,500–3,500 sq ft</option>
-                    <option>3,500–5,000 sq ft</option>
-                    <option>5,000+ sq ft</option>
-                  </select>
-                </div>
-              </div>
-              <div className="form-row">
-                <div className="form-group">
-                  <label>Service Timeline</label>
-                  <select name="serviceTimeline" value={form.serviceTimeline} onChange={handleChange}>
-                    <option value="">Select Timeline</option>
+                  <label>Preferred Contact Time</label>
+                  <select name="preferredTime" value={form.preferredTime} onChange={handleChange}>
+                    <option value="">Anytime</option>
+                    <option>Morning (7AM–12PM)</option>
+                    <option>Afternoon (12PM–5PM)</option>
+                    <option>Evening (5PM–8PM)</option>
                     <option>ASAP – Emergency</option>
-                    <option>Within 1 week</option>
-                    <option>Within 2–4 weeks</option>
-                    <option>1–3 months</option>
-                    <option>Just exploring options</option>
-                  </select>
-                </div>
-                <div className="form-group">
-                  <label>HOA?</label>
-                  <select name="hoa" value={form.hoa} onChange={handleChange}>
-                    <option value="">Select...</option>
-                    <option>Yes</option>
-                    <option>No</option>
                   </select>
                 </div>
               </div>
               <div className="form-group">
-                <label>Additional Information or Questions</label>
-                <textarea name="message" value={form.message} onChange={handleChange} placeholder="Tell us more about your HVAC needs, any specific issues you're experiencing, or best time to contact you..." />
+                <label>Message</label>
+                <textarea name="message" value={form.message} onChange={handleChange} placeholder="Tell us about your project, current system, or issue..." />
               </div>
               {error && (
                 <div style={{ background: '#FEF2F2', border: '2px solid #DC2626', borderRadius: 6, padding: '1rem', marginBottom: '1rem', color: '#991B1B', fontSize: '0.9rem' }}>
@@ -269,7 +194,7 @@ export default function ContactPage({ onNavigate }: ContactPageProps) {
                 </div>
               )}
               <button type="submit" className="form-submit" disabled={loading}>
-                {loading ? 'Sending...' : 'Get My Free Quote'}
+                {loading ? 'Sending...' : 'Send Inquiry ›'}
               </button>
               {success && (
                 <div className="form-success show">

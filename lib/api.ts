@@ -6,13 +6,6 @@ export interface ContactPayload {
   phone?: string;
   service: string;
   property?: string;
-  property_address?: string;
-  city?: string;
-  zip_code?: string;
-  current_system_age?: string;
-  home_size?: string;
-  service_timeline?: string;
-  hoa?: string;
   preferred_time?: string;
   message?: string;
 }
