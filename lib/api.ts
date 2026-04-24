@@ -1,4 +1,4 @@
-const WORKER_URL = process.env.NEXT_PUBLIC_WORKER_URL ?? '';
+import { supabase } from './supabase';
 
 export interface ContactPayload {
   name: string;
@@ -6,19 +6,29 @@ export interface ContactPayload {
   phone?: string;
   service: string;
   property?: string;
-  preferred_time?: string;
+  address?: string;
+  city?: string;
+  zip_code?: string;
+  system_age?: string;
+  building_size?: string;
+  timeline?: string;
   message?: string;
 }
 
 export async function submitContact(payload: ContactPayload): Promise<void> {
-  const res = await fetch(`${WORKER_URL}/contact`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
+  const { error } = await supabase.from('contact_submissions').insert({
+    name: payload.name,
+    email: payload.email,
+    phone: payload.phone ?? '',
+    service: payload.service,
+    property: payload.property ?? '',
+    address: payload.address ?? '',
+    city: payload.city ?? '',
+    zip_code: payload.zip_code ?? '',
+    system_age: payload.system_age ?? '',
+    building_size: payload.building_size ?? '',
+    timeline: payload.timeline ?? '',
+    message: payload.message ?? '',
   });
-
-  if (!res.ok) {
-    const body = await res.json().catch(() => ({})) as { error?: string };
-    throw new Error(body.error ?? 'Request failed');
-  }
+  if (error) throw new Error(error.message);
 }
