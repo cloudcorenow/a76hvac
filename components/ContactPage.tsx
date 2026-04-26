@@ -108,7 +108,7 @@ export default function ContactPage({ onNavigate }: ContactPageProps) {
                 {
                   icon: <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .84h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>,
                   label: 'Phone',
-                  main: '(800) 776-0076',
+                  main: '(714) 740-9165',
                   sub: 'Emergency line available Sundays · Fee applies',
                 },
                 {
@@ -277,7 +277,7 @@ export default function ContactPage({ onNavigate }: ContactPageProps) {
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1A7040" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                       Your inquiry has been received!
                     </span>
-                    {' '}A specialist will contact you within 2 hours.
+                    {' '}A specialist will contact you within 30 minutes.
                   </p>
                 </div>
               )}
