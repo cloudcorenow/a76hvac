@@ -89,6 +89,42 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         </div>
       </section>
 
+      {/* PROMOTIONS */}
+      <section className="promo-section">
+        <div className="inner">
+          <div className="header">
+            <div className="section-tag">Limited-Time Offers</div>
+            <h2 className="section-title">Save Big on Your <em>HVAC Service</em></h2>
+            <p className="section-sub">Take advantage of our current promotions across maintenance, repairs, and full system replacements. Discounts available for Senior, Military, and Law Enforcement.</p>
+          </div>
+          <div className="promo-grid">
+            <div className="promo-flyer">
+              <img
+                src="https://imagedelivery.net/s0JEtwqnLquT1GUYjPcg5Q/fae7c675-522b-480a-339f-83d5a166f200/public"
+                alt="Allegiance 76 HVAC promotional flyer with current offers"
+                loading="lazy"
+              />
+            </div>
+            <div className="promo-offers">
+              {[
+                { tag: 'Up To', main: '$1,500 OFF', sub: 'New System Install', note: '*Call for details' },
+                { tag: 'Free', main: 'Diagnostic', sub: 'With Repairs', note: '*$99 fee waived if repairs are made' },
+                { tag: 'Full Tune-Up', main: '$79', sub: 'Complete HVAC System', note: '*Single-system residential' },
+                { tag: 'Free', main: 'Estimates', sub: 'Orange County & Inland Empire', note: '*Trip fee may apply outside service area' },
+              ].map((o) => (
+                <div className="promo-card" key={o.main}>
+                  <div className="promo-tag">{o.tag}</div>
+                  <div className="promo-main">{o.main}</div>
+                  <div className="promo-sub">{o.sub}</div>
+                  <div className="promo-note">{o.note}</div>
+                </div>
+              ))}
+              <a href="#" className="btn-primary promo-cta" onClick={nav('contact')}>Claim Your Offer ›</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* SERVICES HIGHLIGHTS */}
       <section className="services-home">
         <div className="inner">

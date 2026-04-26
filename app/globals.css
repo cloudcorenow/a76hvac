@@ -222,6 +222,44 @@ body {
 .hero-card-title { font-size: 0.95rem; font-weight: 700; color: var(--white); margin-bottom: 0.3rem; }
 .hero-card-desc { font-size: 0.8rem; color: rgba(255,255,255,0.55); line-height: 1.5; }
 
+/* ── PROMOTIONS ── */
+.promo-section { padding: 80px 2rem; background: var(--white); position: relative; }
+.promo-section .inner { max-width: 1300px; margin: 0 auto; }
+.promo-section .header { margin-bottom: 3rem; max-width: 760px; }
+.promo-section .section-sub { font-size: 1rem; color: var(--text-mid); line-height: 1.7; margin-top: 1rem; }
+.promo-grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 3rem; align-items: center; }
+.promo-flyer {
+  border-radius: 12px; overflow: hidden;
+  box-shadow: 0 20px 60px rgba(10,30,60,0.18);
+  border: 1px solid #E0E6F0; background: var(--white);
+  transition: var(--transition);
+}
+.promo-flyer:hover { transform: translateY(-4px); box-shadow: 0 28px 80px rgba(10,30,60,0.25); }
+.promo-flyer img { display: block; width: 100%; height: auto; }
+.promo-offers { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+.promo-card {
+  background: var(--navy); color: var(--white);
+  border-radius: 8px; padding: 1.75rem 1.25rem; text-align: center;
+  border: 1px solid var(--navy-light); position: relative; overflow: hidden;
+  transition: var(--transition);
+}
+.promo-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--red);
+}
+.promo-card:hover { transform: translateY(-4px); box-shadow: 0 12px 36px rgba(10,30,60,0.25); }
+.promo-tag { font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cream); font-weight: 700; }
+.promo-main { font-family: 'Bebas Neue', sans-serif; font-size: 2.4rem; line-height: 1; color: var(--white); margin: 0.5rem 0 0.4rem; letter-spacing: 0.02em; }
+.promo-sub { font-size: 0.95rem; color: rgba(255,255,255,0.85); font-weight: 600; }
+.promo-note { font-size: 0.7rem; color: rgba(255,255,255,0.55); margin-top: 0.6rem; line-height: 1.4; }
+.promo-cta { grid-column: 1 / -1; justify-self: start; margin-top: 0.5rem; }
+@media (max-width: 900px) {
+  .promo-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .promo-cta { justify-self: stretch; text-align: center; }
+}
+@media (max-width: 520px) {
+  .promo-offers { grid-template-columns: 1fr; }
+}
+
 /* ── SERVICES HOME ── */
 .services-home { padding: 80px 2rem; background: var(--gray-light); }
 .services-home .inner { max-width: 1300px; margin: 0 auto; }
