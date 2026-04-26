@@ -2,8 +2,8 @@ import './globals.css';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Alliance 76 HVAC — Heating & Cooling',
-  description: 'Alliance 76 HVAC delivers world-class heating, cooling, and air quality solutions with American craftsmanship since 1976.',
+  title: 'Allegiance 76 Heating and Air Conditioning LLC — Heating & Cooling',
+  description: 'Allegiance 76 Heating and Air Conditioning LLC delivers world-class heating, cooling, and air quality solutions with American craftsmanship.',
   openGraph: {
     images: [{ url: 'https://bolt.new/static/og_default.png' }],
   },

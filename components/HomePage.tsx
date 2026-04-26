@@ -27,7 +27,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
               Comfort<br />Built on<br /><em>American</em><br />Values
             </h1>
             <p className="hero-subtitle fade-up fade-up-3">
-              Allegiance 76 Heating &amp; Air Conditioning delivers world-class heating, cooling, and air quality solutions with the integrity and craftsmanship this country was built on. Residential, commercial, industrial — we do it all.
+              Allegiance 76 Heating and Air Conditioning LLC delivers world-class heating, cooling, and air quality solutions with the integrity and craftsmanship this country was built on. Residential, commercial, industrial — we do it all.
             </p>
             <div className="hero-actions fade-up fade-up-4">
               <a href="#" className="btn-primary" onClick={nav('contact')}>Get Free Quote ›</a>

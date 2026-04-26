@@ -41,7 +41,7 @@ export default function AboutPage({ onNavigate }: AboutPageProps) {
           <div className="about-story-text">
             <div className="section-tag">Who We Are</div>
             <h2 className="section-title">Comfort Built on <em>Taking Care of People</em></h2>
-            <p>At Allegiance 76 Heating And Air Conditioning, we believe comfort isn&apos;t just about temperature — it&apos;s about taking care of people. We are a family-owned and operated company built on a simple principle: <strong>put families first, always.</strong></p>
+            <p>At Allegiance 76 Heating and Air Conditioning LLC, we believe comfort isn&apos;t just about temperature — it&apos;s about taking care of people. We are a family-owned and operated company built on a simple principle: <strong>put families first, always.</strong></p>
             <p>In an industry increasingly taken over by large private investment groups focused on volume and profit, we chose a different path. We built Allegiance 76 to bring back what matters most — honesty, craftsmanship, and genuine care for the homeowners we serve.</p>
             <p>Our company is led by the owner and supported by a dedicated install team who share the same values and standards. Every project is handled with precision, pride, and personal accountability. When you work with us, you&apos;re not just another number in a system — you&apos;re a family trusting us with your home, and we take that seriously.</p>
             <p>We don&apos;t believe in high-pressure sales tactics or one-size-fits-all solutions. We focus on educating our customers, providing honest recommendations, and delivering long-term comfort solutions that truly fit your home and your budget.</p>

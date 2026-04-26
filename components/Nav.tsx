@@ -25,7 +25,7 @@ export default function Nav({ currentPage, onNavigate }: NavProps) {
           <a href="#" className="nav-logo" onClick={(e) => { e.preventDefault(); navigate('home'); }}>
             <img
               src="https://imagedelivery.net/s0JEtwqnLquT1GUYjPcg5Q/a176505f-29dc-48e9-a57a-2b705c67c500/public"
-              alt="Allegiance 76 HVAC Logo"
+              alt="Allegiance 76 Heating and Air Conditioning LLC Logo"
               style={{ height: 48, width: 'auto', objectFit: 'contain' }}
             />
           </a>

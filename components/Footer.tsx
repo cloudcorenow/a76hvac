@@ -19,10 +19,10 @@ export default function Footer({ onNavigate }: FooterProps) {
           <a href="#" className="footer-logo" onClick={nav('home')}>
             <img
               src="https://imagedelivery.net/s0JEtwqnLquT1GUYjPcg5Q/a176505f-29dc-48e9-a57a-2b705c67c500/public"
-              alt="Allegiance 76 HVAC"
+              alt="Allegiance 76 Heating and Air Conditioning LLC"
               style={{ height: 44 }}
             />
-            <span>Allegiance 76 HVAC</span>
+            <span>Allegiance 76 Heating and Air Conditioning LLC</span>
           </a>
           <p>Heating, cooling, and air quality solutions delivered with American craftsmanship since 2006. Trusted by thousands of California homeowners, businesses, and industrial facilities.</p>
         </div>
@@ -71,7 +71,7 @@ export default function Footer({ onNavigate }: FooterProps) {
         </div>
       </div>
       <div className="footer-bottom">
-        <span>© 2024 Allegiance 76 Heating &amp; Air Conditioning. All rights reserved.</span>
+        <span>© 2024 Allegiance 76 Heating and Air Conditioning LLC. All rights reserved.</span>
         <span>
           Licensed in California · Bonded · Insured · Proudly American
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
