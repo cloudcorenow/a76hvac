@@ -189,7 +189,7 @@ export default function ContactPage({ onNavigate }: ContactPageProps) {
                     <option>Multi-Family Home</option>
                     <option>Townhouse/Condo</option>
                     <option>Commercial Building</option>
-                    <option>Other</option>
+                    <option>Manufactured Home</option>
                   </select>
                 </div>
                 <div className="form-group">
