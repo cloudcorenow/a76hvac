@@ -129,12 +129,23 @@ export default function ContactPage({ onNavigate }: ContactPageProps) {
                   main: 'Mon–Sat: 8AM – 6PM',
                   sub: 'Sun: Emergency Service Available · Emergency fee applies',
                 },
-              ].map(({ icon, label, main, sub }) => (
+                {
+                  icon: <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>,
+                  label: 'Instagram',
+                  main: '@allegiance76hvac',
+                  sub: 'Follow our latest projects',
+                  href: 'https://www.instagram.com/allegiance76hvac',
+                },
+              ].map(({ icon, label, main, sub, href }: { icon: React.ReactNode; label: string; main: string; sub: string; href?: string }) => (
                 <div className="info-card" key={label}>
                   <div className="info-card-icon">{icon}</div>
                   <div>
                     <h4>{label}</h4>
-                    <p>{main}</p>
+                    <p>
+                      {href ? (
+                        <a href={href} target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none' }}>{main}</a>
+                      ) : main}
+                    </p>
                     <span>{sub}</span>
                   </div>
                 </div>
