@@ -105,10 +105,10 @@ export default function ServicesPage({ onNavigate }: ServicesPageProps) {
                   <div className="plan-badge">Home Service Plan</div>
                   <div className="plan-name">Patriot Package</div>
                   <div className="plan-price-row">
-                    <div className="plan-price">$209</div>
+                    <div className="plan-price">$249</div>
                     <div className="plan-price-suffix">/ year · one-time annual payment</div>
                   </div>
-                  <div className="plan-add-sys"><strong>$169</strong> per additional system</div>
+                  <div className="plan-add-sys"><strong>$209</strong> per additional system</div>
                   <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', background: 'rgba(178,34,52,0.25)', border: '1px solid rgba(178,34,52,0.5)', color: 'var(--cream)', padding: '0.35rem 0.75rem', borderRadius: 3, fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.08em', marginTop: '0.9rem' }}>
                     <CheckIcon />Included FREE with every new system install — 2 years
                   </div>
