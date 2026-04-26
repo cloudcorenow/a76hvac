@@ -196,15 +196,15 @@ export default function ContactPage({ onNavigate }: ContactPageProps) {
                   <label>Service Needed *</label>
                   <select name="service" value={form.service} onChange={handleChange} required>
                     <option value="">Select Service Type</option>
-                    <option>Air Conditioning Installation</option>
-                    <option>AC Repair / Maintenance</option>
-                    <option>Heating System Installation</option>
-                    <option>Heating Repair / Maintenance</option>
-                    <option>Ventilation & Indoor Air Quality</option>
-                    <option>Commercial / Industrial HVAC</option>
-                    <option>Smart Controls & Automation</option>
+                    <option>HVAC System Maintenance</option>
+                    <option>HVAC System Service & Repair</option>
+                    <option>Furnace Replacement</option>
+                    <option>AC System Replacement</option>
+                    <option>Air Duct System Replacement</option>
+                    <option>Indoor Air Quality (IAQ)</option>
+                    <option>Smart Controls/Automation</option>
+                    <option>Membership Plans</option>
                     <option>Emergency Service</option>
-                    <option>Allegiance Membership Plan</option>
                     <option>Other</option>
                   </select>
                 </div>
