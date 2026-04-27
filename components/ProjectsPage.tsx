@@ -28,7 +28,10 @@ const projects: Project[] = [
     desc: 'Full AC system replacement for a single-family home. Removed the aging unit, installed a new high-efficiency Carrier central air conditioner, and upgraded the air handler and thermostat. The homeowners saw immediate comfort improvement and reduced energy costs.',
     before: 'https://imagedelivery.net/s0JEtwqnLquT1GUYjPcg5Q/6777becf-ee09-4ce9-e27a-375c28254800/public',
     after:  'https://imagedelivery.net/s0JEtwqnLquT1GUYjPcg5Q/88b6ec96-f93a-49a1-f57c-0a56075d5200/public',
-    extraImages: [],
+    extraImages: [
+      'https://imagedelivery.net/s0JEtwqnLquT1GUYjPcg5Q/da46676d-d0c9-4afd-7ce4-172b641ad600/public',
+      'https://imagedelivery.net/s0JEtwqnLquT1GUYjPcg5Q/68884ff8-242c-4d66-7ce6-990e8d8c7a00/public',
+    ],
   },
   {
     id: 2, cat: 'commercial', title: 'Commercial Rooftop Unit Installation', loc: 'Orange County, CA',
@@ -62,15 +65,7 @@ const projects: Project[] = [
     after:  'https://imagedelivery.net/s0JEtwqnLquT1GUYjPcg5Q/50e7cdef-8a21-40b4-79ae-49be17224700/public',
     extraImages: [],
   },
-  {
-    id: 6, cat: 'commercial', title: 'Restaurant Kitchen Ventilation', loc: 'Orange County, CA',
-    size: '3,200 sq ft', system: 'Captive-Aire Hood + Makeup Air', year: '2023',
-    desc: 'Design and installation of a commercial kitchen ventilation system for a full-service restaurant. Project included a Captive-Aire exhaust hood, dedicated makeup air unit, grease duct system, and fire suppression integration to meet all Orange County health and building code requirements.',
-    before: 'https://imagedelivery.net/s0JEtwqnLquT1GUYjPcg5Q/da46676d-d0c9-4afd-7ce4-172b641ad600/public',
-    after:  'https://imagedelivery.net/s0JEtwqnLquT1GUYjPcg5Q/68884ff8-242c-4d66-7ce6-990e8d8c7a00/public',
-    extraImages: [],
-  },
-  {
+{
     id: 7, cat: 'residential', title: 'Mini-Split Installation', loc: 'Orange County, CA',
     size: 'Single Zone', system: 'Ductless Mini-Split System', year: '2024',
     desc: 'New ductless mini-split installation in a space with no prior HVAC equipment. Provided efficient, room-specific heating and cooling with a clean, low-profile wall-mounted air handler and outdoor condenser.',
