@@ -65,7 +65,15 @@ const projects: Project[] = [
     after:  'https://imagedelivery.net/s0JEtwqnLquT1GUYjPcg5Q/50e7cdef-8a21-40b4-79ae-49be17224700/public',
     extraImages: [],
   },
-{
+  {
+    id: 6, cat: 'residential', title: 'Upflow Closet Furnace & Ductwork Replacement with AC Addition', loc: 'Orange County, CA',
+    size: 'Single-Family Home', system: 'High-Efficiency American-Made Furnace + AC', year: '2024',
+    desc: 'Complete upflow closet furnace and ductwork replacement with a brand-new AC system addition. The original heat-only setup was fully removed, including certified asbestos abatement throughout the system, and replaced with all new high-efficiency American-made heating and cooling equipment.',
+    before: '',
+    after: '',
+    extraImages: [],
+  },
+  {
     id: 7, cat: 'residential', title: 'Mini-Split Installation', loc: 'Orange County, CA',
     size: 'Single Zone', system: 'Ductless Mini-Split System', year: '2024',
     desc: 'New ductless mini-split installation in a space with no prior HVAC equipment. Provided efficient, room-specific heating and cooling with a clean, low-profile wall-mounted air handler and outdoor condenser.',
