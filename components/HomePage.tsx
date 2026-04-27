@@ -43,7 +43,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
                 <div className="label">Installs Complete</div>
               </div>
               <div className="hero-stat fade-up fade-up-3">
-                <div className="num">99<span>%</span></div>
+                <div className="num">100<span>%</span></div>
                 <div className="label">Client Satisfaction</div>
               </div>
             </div>
