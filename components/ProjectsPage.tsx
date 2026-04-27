@@ -70,6 +70,17 @@ const projects: Project[] = [
     after:  'https://imagedelivery.net/s0JEtwqnLquT1GUYjPcg5Q/68884ff8-242c-4d66-7ce6-990e8d8c7a00/public',
     extraImages: [],
   },
+  {
+    id: 7, cat: 'residential', title: 'Mini-Split Installation', loc: 'Orange County, CA',
+    size: 'Single Zone', system: 'Ductless Mini-Split System', year: '2024',
+    desc: 'New ductless mini-split installation in a space with no prior HVAC equipment. Provided efficient, room-specific heating and cooling with a clean, low-profile wall-mounted air handler and outdoor condenser.',
+    before: '',
+    after: '',
+    extraImages: [
+      'https://imagedelivery.net/s0JEtwqnLquT1GUYjPcg5Q/01224b31-f9fc-4347-83ce-5832e798ad00/public',
+      'https://imagedelivery.net/s0JEtwqnLquT1GUYjPcg5Q/a97c74ea-710c-4967-01ac-b4e4ead6e600/public',
+    ],
+  },
 ];
 
 /* ── SVG ICONS ── */
@@ -164,6 +175,11 @@ export default function ProjectsPage({ onNavigate }: ProjectsPageProps) {
                         {p.after && <div className="project-thumb-divider"></div>}
                         <span className="project-thumb-label project-thumb-label-before">Before</span>
                         {p.after && <span className="project-thumb-label project-thumb-label-after">After</span>}
+                      </>
+                    ) : p.extraImages.length > 0 ? (
+                      <>
+                        <img src={p.extraImages[0]} alt={p.title} loading="lazy" className="project-thumb-before" style={{ width: '100%', clipPath: 'none' }} />
+                        <div className="project-thumb-overlay"></div>
                       </>
                     ) : (
                       <div className="project-thumb-placeholder">
@@ -307,7 +323,14 @@ export default function ProjectsPage({ onNavigate }: ProjectsPageProps) {
               loading="lazy"
             />
             <div className="carousel-img-badge">
-              {lightboxIndex === 0 ? 'Before' : lightboxIndex === 1 ? 'After' : `Photo ${lightboxIndex - 1}`}
+              {(() => {
+                const hasBefore = !!selectedProject.before;
+                const hasAfter = !!selectedProject.after;
+                if (hasBefore && lightboxIndex === 0) return 'Before';
+                if (hasAfter && lightboxIndex === (hasBefore ? 1 : 0)) return 'After';
+                const offset = (hasBefore ? 1 : 0) + (hasAfter ? 1 : 0);
+                return `Photo ${lightboxIndex - offset + 1}`;
+              })()}
             </div>
           </div>
           <button className="carousel-nav next" onClick={nextImg} aria-label="Next">
