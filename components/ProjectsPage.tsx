@@ -23,9 +23,9 @@ interface Project {
 
 const projects: Project[] = [
   {
-    id: 1, cat: 'residential', title: 'Single-Family Home AC Replacement', loc: 'Orange County, CA',
-    size: '2,100 sq ft', system: 'Carrier 2-Ton Central AC', year: '2024',
-    desc: 'Full AC system replacement for a single-family home. Removed the aging unit, installed a new high-efficiency Carrier central air conditioner, and upgraded the air handler and thermostat. The homeowners saw immediate comfort improvement and reduced energy costs.',
+    id: 1, cat: 'residential', title: 'Full Residential HVAC System Replacement', loc: 'Orange County, CA',
+    size: '2,100 sq ft', system: 'High-Efficiency AC + Ultra Low NOx Furnace', year: '2024',
+    desc: 'Full residential system replacement including all new ductwork and an upgraded 4" filtration system. We installed a high-efficiency AC paired with an ultra Low NOx furnace. Permits and HERS (Home Energy Rating System) testing are always included on every install.',
     before: 'https://imagedelivery.net/s0JEtwqnLquT1GUYjPcg5Q/6777becf-ee09-4ce9-e27a-375c28254800/public',
     after:  'https://imagedelivery.net/s0JEtwqnLquT1GUYjPcg5Q/88b6ec96-f93a-49a1-f57c-0a56075d5200/public',
     extraImages: [
