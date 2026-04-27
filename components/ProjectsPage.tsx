@@ -34,9 +34,9 @@ const projects: Project[] = [
     ],
   },
   {
-    id: 2, cat: 'commercial', title: 'Commercial Rooftop Unit Installation', loc: 'Orange County, CA',
-    size: '4,800 sq ft', system: 'Daikin Rooftop Package Unit', year: '2024',
-    desc: 'Supply and installation of a Daikin rooftop package unit for a commercial retail space. Work included structural roof curb fabrication, new ductwork distribution, and digital controls integration to meet California Title 24 energy compliance.',
+    id: 2, cat: 'commercial', title: 'Townhome Rooftop Unit Replacement', loc: 'Orange County, CA',
+    size: 'Townhome', system: 'High-Efficiency American-Made Rooftop Unit', year: '2024',
+    desc: 'Townhome rooftop unit replacement. We removed the aging rooftop unit and installed a new high-efficiency American-made rooftop unit for reliable, long-term performance.',
     before: 'https://imagedelivery.net/s0JEtwqnLquT1GUYjPcg5Q/e0058ad4-aa08-4e06-b131-9ee0dbc53d00/public',
     after:  'https://imagedelivery.net/s0JEtwqnLquT1GUYjPcg5Q/e24c710b-b6cf-4365-9aaa-21ea6035bf00/public',
     extraImages: [],
