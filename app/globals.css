@@ -831,10 +831,10 @@ footer .stripe-accent { margin-bottom: 3rem; }
   /* nav */
   .nav-links { display: none; }
   .hamburger { display: flex; }
-  .nav-inner { padding: 0 1rem; min-height: 0; }
-  .nav-logo { padding-left: 0; }
+  .nav-inner { padding: 0 1rem; min-height: 0; position: relative; justify-content: flex-end; }
+  .nav-logo { padding-left: 0; margin-right: 0; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); }
   .nav-logo-img { height: 110px; margin-top: -10px; margin-bottom: -32px; }
-  .mobile-menu { top: 78px; padding: 1rem 1.25rem 1.5rem; }
+  .mobile-menu { top: 72px; padding: 1.25rem 1.25rem 2rem; max-height: calc(100vh - 72px); overflow-y: auto; }
 
   /* page sections */
   .page-header { padding: 110px 1.25rem 60px; }
@@ -919,7 +919,7 @@ footer .stripe-accent { margin-bottom: 3rem; }
 @media (max-width: 480px) {
   .nav-inner { min-height: 0; padding: 0 0.85rem; }
   .nav-logo-img { height: 96px; margin-top: -8px; margin-bottom: -28px; }
-  .mobile-menu { top: 68px; }
+  .mobile-menu { top: 64px; max-height: calc(100vh - 64px); }
 
   .page-header { padding: 95px 1rem 50px; }
   .hero-content { padding: 90px 1rem 50px; }
