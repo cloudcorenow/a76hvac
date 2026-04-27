@@ -45,8 +45,11 @@ export default function AboutPage({ onNavigate }: AboutPageProps) {
             <p>In an industry increasingly taken over by large private investment groups focused on volume and profit, we chose a different path. We built Allegiance 76 to bring back what matters most — honesty, craftsmanship, and genuine care for the homeowners we serve.</p>
             <p>Our company is led by the owner and supported by a dedicated install team who share the same values and standards. Every project is handled with precision, pride, and personal accountability. When you work with us, you&apos;re not just another number in a system — you&apos;re a family trusting us with your home, and we take that seriously.</p>
             <p>We don&apos;t believe in high-pressure sales tactics or one-size-fits-all solutions. We focus on educating our customers, providing honest recommendations, and delivering long-term comfort solutions that truly fit your home and your budget.</p>
-            <blockquote style={{ borderLeft: '4px solid var(--red)', paddingLeft: '1.25rem', margin: '1.5rem 0', fontStyle: 'italic', color: 'var(--text-mid)' }}>
+            <blockquote style={{ borderLeft: '4px solid var(--red)', paddingLeft: '1.25rem', margin: '1.5rem 0 1rem', fontStyle: 'italic', color: 'var(--text-mid)' }}>
               &ldquo;Deliver reliable comfort while earning your trust for life.&rdquo;
+            </blockquote>
+            <blockquote style={{ borderLeft: '4px solid var(--red)', paddingLeft: '1.25rem', margin: '1rem 0 1.5rem', fontStyle: 'italic', color: 'var(--navy)', fontWeight: 700, fontSize: '1.15rem', lineHeight: 1.4 }}>
+              &ldquo;We answer to families, not investors.&rdquo;
             </blockquote>
             <a href="#" className="btn-primary" style={{ marginTop: '1rem', display: 'inline-flex' }} onClick={nav('contact')}>Work With Us ›</a>
           </div>

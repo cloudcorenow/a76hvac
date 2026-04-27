@@ -25,6 +25,9 @@ export default function Footer({ onNavigate }: FooterProps) {
             <span>Allegiance 76 Heating and Air Conditioning LLC</span>
           </a>
           <p>Heating, cooling, and air quality solutions delivered with American craftsmanship since 2006. Trusted by thousands of California homeowners, businesses, and industrial facilities.</p>
+          <p style={{ marginTop: '0.85rem', fontStyle: 'italic', color: 'var(--red)', fontWeight: 600, letterSpacing: '0.01em' }}>
+            &ldquo;We answer to families, not investors.&rdquo;
+          </p>
         </div>
         <div className="footer-col">
           <h4>Services</h4>
