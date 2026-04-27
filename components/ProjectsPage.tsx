@@ -238,6 +238,10 @@ export default function ProjectsPage({ onNavigate }: ProjectsPageProps) {
               </div>
             </div>
 
+            <div className="project-detail-desc">
+              <p>{selectedProject.desc}</p>
+            </div>
+
             {/* IMAGE GRID */}
             {allImages.length > 0 ? (
               <div className="ba-stills-grid">
