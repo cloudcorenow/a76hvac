@@ -102,7 +102,7 @@ export default function ContactPage({ onNavigate }: ContactPageProps) {
           <div className="contact-info-col">
             <div className="section-tag">Contact Info</div>
             <h2 className="section-title">We're <em>Always</em> On</h2>
-            <p className="section-sub" style={{ marginBottom: '0.5rem' }}>Reach us by phone, email, or the form. Our team responds to all inquiries within 2 hours during business hours.</p>
+            <p className="section-sub" style={{ marginBottom: '0.5rem' }}>Reach us by phone, email, or the form. Our team responds to all inquiries within 30 minutes during business hours.</p>
             <div className="info-cards">
               {[
                 {
@@ -115,7 +115,7 @@ export default function ContactPage({ onNavigate }: ContactPageProps) {
                   icon: <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>,
                   label: 'Email',
                   main: 'info@allegiance76hvac.com',
-                  sub: 'Response within 2 business hours',
+                  sub: 'Response within 30 minutes',
                 },
                 {
                   icon: <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>,
