@@ -21,7 +21,7 @@ export default function ServicesPage({ onNavigate }: ServicesPageProps) {
     {
       icon: <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><polyline points="6 6 12 2 18 6"/><polyline points="6 18 12 22 18 18"/><polyline points="2 6 6 10 2 14"/><polyline points="22 6 18 10 22 14"/></svg>,
       title: 'Air Conditioning Systems',
-      desc: 'Expert installation, repair, and maintenance of central AC systems, ductless mini-splits, VRF systems, and rooftop package units. We work with all major brands including Carrier, Trane, Lennox, and Daikin.',
+      desc: 'Expert installation, repair, and maintenance of central AC systems, ductless mini-splits, VRF systems, and rooftop package units. We work with all major brands including AC Pro, Trane, Lennox, and Daikin.',
       features: ['Central AC', 'Mini-Splits', 'VRF Systems', 'Rooftop Units', 'All Brands'],
     },
     {
