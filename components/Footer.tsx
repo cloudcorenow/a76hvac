@@ -18,9 +18,9 @@ export default function Footer({ onNavigate }: FooterProps) {
         <div className="footer-brand">
           <a href="#" className="footer-logo" onClick={nav('home')}>
             <img
-              src="https://imagedelivery.net/s0JEtwqnLquT1GUYjPcg5Q/cc457fa5-3967-4ba4-b688-6b95f80bb600/public"
+              src="https://imagedelivery.net/s0JEtwqnLquT1GUYjPcg5Q/a176505f-29dc-48e9-a57a-2b705c67c500/public"
               alt="Allegiance 76 Heating and Air Conditioning LLC"
-              style={{ height: 68, mixBlendMode: 'multiply', filter: 'brightness(1.15) contrast(1.05)' }}
+              style={{ height: 44 }}
             />
             <span>Allegiance 76 Heating and Air Conditioning LLC</span>
           </a>
