@@ -20,7 +20,7 @@ export default function Footer({ onNavigate }: FooterProps) {
             <img
               src="https://imagedelivery.net/s0JEtwqnLquT1GUYjPcg5Q/c1245cc8-766a-4709-c140-14e14c610d00/public"
               alt="Allegiance 76 Heating and Air Conditioning LLC"
-              style={{ height: 72 }}
+              style={{ height: 110 }}
             />
             <span>Allegiance 76 Heating and Air Conditioning LLC</span>
           </a>
