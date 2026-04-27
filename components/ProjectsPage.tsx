@@ -81,6 +81,14 @@ const projects: Project[] = [
       'https://imagedelivery.net/s0JEtwqnLquT1GUYjPcg5Q/a97c74ea-710c-4967-01ac-b4e4ead6e600/public',
     ],
   },
+  {
+    id: 8, cat: 'residential', title: 'Residential HVAC System Replacement', loc: 'Orange County, CA',
+    size: 'Single-Family Home', system: 'High-Efficiency HVAC System', year: '2024',
+    desc: 'Removed an outdated, inefficient HVAC system and installed a modern high-efficiency replacement. The new equipment delivers improved comfort, quieter operation, and lower monthly energy costs for the homeowner.',
+    before: 'https://imagedelivery.net/s0JEtwqnLquT1GUYjPcg5Q/f93381fd-6a09-49ac-3380-f6368b1d1000/public',
+    after:  'https://imagedelivery.net/s0JEtwqnLquT1GUYjPcg5Q/d7b1d69f-788f-448f-6afa-ebe656269e00/public',
+    extraImages: [],
+  },
 ];
 
 /* ── SVG ICONS ── */
