@@ -61,10 +61,14 @@ body {
 }
 .nav-inner {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 0 2rem; height: 70px; max-width: 1300px; margin: 0 auto;
+  padding: 0 2rem; height: 88px; max-width: 1300px; margin: 0 auto;
 }
 .nav-logo { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; }
-.nav-logo img { height: 48px; width: auto; object-fit: contain; }
+.nav-logo img {
+  height: 72px; width: auto; object-fit: contain;
+  mix-blend-mode: multiply;
+  filter: brightness(1.15) contrast(1.05);
+}
 .nav-logo-text { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; color: var(--white); letter-spacing: 0.05em; line-height: 1.1; }
 .nav-logo-text span { display: block; font-family: 'Source Sans 3', sans-serif; font-size: 0.6rem; font-weight: 300; letter-spacing: 0.2em; color: var(--cream); text-transform: uppercase; }
 
