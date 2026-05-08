@@ -18,7 +18,7 @@ interface Project {
   desc: string;
   before: string;
   after: string;
-  extraImages: string[];
+  extraImages: Array<string | { src: string; label: 'before' | 'after' }>;
 }
 
 const projects: Project[] = [
@@ -69,9 +69,14 @@ const projects: Project[] = [
     id: 6, cat: 'residential', title: 'Upflow Closet Furnace & Ductwork Replacement with AC Addition', loc: 'Orange County, CA',
     size: 'Single-Family Home', system: 'High-Efficiency American-Made Furnace + AC', year: '2024',
     desc: 'Complete upflow closet furnace and ductwork replacement with a brand-new AC system addition. The original heat-only setup was fully removed, including certified asbestos abatement throughout the system, and replaced with all new high-efficiency American-made heating and cooling equipment.',
-    before: '',
-    after: '',
-    extraImages: [],
+    before: 'https://imagedelivery.net/s0JEtwqnLquT1GUYjPcg5Q/a27ee419-7c21-4c33-0ad3-1de3de496900/public',
+    after:  'https://imagedelivery.net/s0JEtwqnLquT1GUYjPcg5Q/f0dbf58a-b56e-47df-1457-30478a465700/public',
+    extraImages: [
+      { src: 'https://imagedelivery.net/s0JEtwqnLquT1GUYjPcg5Q/ddfefe45-b81d-4a47-0de4-83ffc3239100/public', label: 'before' },
+      { src: 'https://imagedelivery.net/s0JEtwqnLquT1GUYjPcg5Q/e26b9bc5-28e1-42e7-9819-6245cb3f3300/public', label: 'before' },
+      { src: 'https://imagedelivery.net/s0JEtwqnLquT1GUYjPcg5Q/c42ef99f-0edc-44cb-112f-4883d9a95700/public', label: 'after' },
+      { src: 'https://imagedelivery.net/s0JEtwqnLquT1GUYjPcg5Q/efdbe692-8485-4bdc-d4fe-481f52e1d500/public', label: 'after' },
+    ],
   },
   {
     id: 7, cat: 'residential', title: 'Mini-Split Installation', loc: 'Orange County, CA',
@@ -121,7 +126,7 @@ export default function ProjectsPage({ onNavigate }: ProjectsPageProps) {
     ? [
         ...(selectedProject.before ? [selectedProject.before] : []),
         ...(selectedProject.after  ? [selectedProject.after]  : []),
-        ...selectedProject.extraImages,
+        ...selectedProject.extraImages.map((x) => (typeof x === 'string' ? x : x.src)),
       ]
     : [];
 
@@ -189,7 +194,7 @@ export default function ProjectsPage({ onNavigate }: ProjectsPageProps) {
                       </>
                     ) : p.extraImages.length > 0 ? (
                       <>
-                        <img src={p.extraImages[0]} alt={p.title} loading="lazy" className="project-thumb-before" style={{ width: '100%', clipPath: 'none' }} />
+                        <img src={typeof p.extraImages[0] === 'string' ? p.extraImages[0] : p.extraImages[0].src} alt={p.title} loading="lazy" className="project-thumb-before" style={{ width: '100%', clipPath: 'none' }} />
                         <div className="project-thumb-overlay"></div>
                       </>
                     ) : (
@@ -253,57 +258,38 @@ export default function ProjectsPage({ onNavigate }: ProjectsPageProps) {
             {/* IMAGE GRID */}
             {allImages.length > 0 ? (
               <div className="ba-stills-grid">
-                {selectedProject.before && (
-                  <div
-                    className="ba-still"
-                    onClick={() => openLightbox(0)}
-                    role="button"
-                    tabIndex={0}
-                    onKeyDown={(e) => e.key === 'Enter' && openLightbox(0)}
-                    aria-label="View before photo"
-                  >
-                    <img src={selectedProject.before} alt={`${selectedProject.title} before`} loading="lazy" />
-                    <div className="ba-still-label">Before</div>
-                    <div className="gallery-zoom-hint">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
-                    </div>
-                  </div>
-                )}
-                {selectedProject.after && (
-                  <div
-                    className="ba-still"
-                    onClick={() => openLightbox(selectedProject.before ? 1 : 0)}
-                    role="button"
-                    tabIndex={0}
-                    onKeyDown={(e) => e.key === 'Enter' && openLightbox(selectedProject.before ? 1 : 0)}
-                    aria-label="View after photo"
-                  >
-                    <img src={selectedProject.after} alt={`${selectedProject.title} after`} loading="lazy" />
-                    <div className="ba-still-label ba-still-label-after">After</div>
-                    <div className="gallery-zoom-hint">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
-                    </div>
-                  </div>
-                )}
-                {selectedProject.extraImages.map((src, i) => {
-                  const offset = (selectedProject.before ? 1 : 0) + (selectedProject.after ? 1 : 0);
-                  return (
+                {(() => {
+                  type GalleryItem = { src: string; label: 'before' | 'after' | null; lightboxIndex: number };
+                  const items: GalleryItem[] = [];
+                  let idx = 0;
+                  if (selectedProject.before) items.push({ src: selectedProject.before, label: 'before', lightboxIndex: idx++ });
+                  if (selectedProject.after) items.push({ src: selectedProject.after, label: 'after', lightboxIndex: idx++ });
+                  selectedProject.extraImages.forEach((item) => {
+                    const src = typeof item === 'string' ? item : item.src;
+                    const label = typeof item === 'string' ? null : item.label;
+                    items.push({ src, label, lightboxIndex: idx++ });
+                  });
+                  const order = (l: 'before' | 'after' | null) => (l === 'before' ? 0 : l === 'after' ? 1 : 2);
+                  const sorted = [...items].sort((a, b) => order(a.label) - order(b.label));
+                  return sorted.map((it, i) => (
                     <div
                       key={i}
                       className="ba-still"
-                      onClick={() => openLightbox(offset + i)}
+                      onClick={() => openLightbox(it.lightboxIndex)}
                       role="button"
                       tabIndex={0}
-                      onKeyDown={(e) => e.key === 'Enter' && openLightbox(offset + i)}
-                      aria-label={`View additional photo ${i + 1}`}
+                      onKeyDown={(e) => e.key === 'Enter' && openLightbox(it.lightboxIndex)}
+                      aria-label={`View ${it.label ?? 'additional'} photo`}
                     >
-                      <img src={src} alt={`${selectedProject.title} additional photo ${i + 1}`} loading="lazy" />
+                      <img src={it.src} alt={`${selectedProject.title} ${it.label ?? 'additional photo'}`} loading="lazy" />
+                      {it.label === 'before' && <div className="ba-still-label">Before</div>}
+                      {it.label === 'after' && <div className="ba-still-label ba-still-label-after">After</div>}
                       <div className="gallery-zoom-hint">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
                       </div>
                     </div>
-                  );
-                })}
+                  ));
+                })()}
               </div>
             ) : (
               <div className="project-no-photos">
