@@ -100,7 +100,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
           <div className="promo-grid">
             <div className="promo-flyer">
               <img
-                src="https://imagedelivery.net/s0JEtwqnLquT1GUYjPcg5Q/fae7c675-522b-480a-339f-83d5a166f200/public"
+                src="https://imagedelivery.net/s0JEtwqnLquT1GUYjPcg5Q/88780bd8-d587-4095-2a15-f4c93f1de100/public"
                 alt="Allegiance 76 HVAC promotional flyer with current offers"
                 loading="lazy"
               />
